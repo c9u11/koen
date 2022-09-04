@@ -73,11 +73,8 @@ app.on("ready", () => {
       },
     },
     {
-      // role: "quit",
+      role: "quit",
       label: "KoEn 종료",
-      click: () => {
-        app.exit(0);
-      },
     },
   ]);
 
@@ -98,18 +95,29 @@ app.on("ready", () => {
   appMain.tray.setToolTip("KoEn");
   appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);
-  // app.on("activate", function () {
-  //   // On macOS it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  // });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  app.quit();
+  console.log("window-all-closed");
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("before-quit", () => {
+  // Unregister shortcut
+  unregisterShortcut();
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+  // tray destroy
+  appMain.tray.destroy();
+});
+
+app.on("will-quit", () => {
+  console.log("will-quit");
 });
 
 // In this file you can include the rest of your app"s specific main process
@@ -192,10 +200,4 @@ app.whenReady().then(() => {
   ipcMain.on(IPC_SETTING_END, () => {
     registerShortcut();
   });
-});
-
-app.on("will-quit", () => {
-  unregisterShortcut();
-  // Unregister all shortcuts.
-  globalShortcut.unregisterAll();
 });

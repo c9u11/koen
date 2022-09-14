@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import * as path from "path";
 
 function createWindow() {
@@ -40,5 +40,26 @@ app.on("window-all-closed", () => {
   }
 });
 
+app.whenReady().then(() => {
+  // Register a 'CommandOrControl+X' shortcut listener.
+  const ret = globalShortcut.register("CommandOrControl+X", () => {
+    console.log("CommandOrControl+X is pressed");
+  });
+
+  if (!ret) {
+    console.log("registration failed");
+  }
+
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered("CommandOrControl+X"));
+});
+
+app.on("will-quit", () => {
+  // Unregister a shortcut.
+  globalShortcut.unregister("CommandOrControl+X");
+
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+});
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

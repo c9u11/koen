@@ -41,9 +41,9 @@ app.on("window-all-closed", () => {
 });
 
 app.whenReady().then(() => {
-  // Register a 'CommandOrControl+X' shortcut listener.
-  const ret = globalShortcut.register("CommandOrControl+X", () => {
-    console.log("CommandOrControl+X is pressed");
+  // Register a 'Ctrl+Shift+Space' shortcut listener.
+  const ret = globalShortcut.register("Ctrl+Shift+Space", () => {
+    console.log("Ctrl+Shift+Space is pressed");
   });
 
   if (!ret) {
@@ -51,12 +51,12 @@ app.whenReady().then(() => {
   }
 
   // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered("CommandOrControl+X"));
+  console.log(globalShortcut.isRegistered("Ctrl+Shift+Space"));
 });
 
 app.on("will-quit", () => {
   // Unregister a shortcut.
-  globalShortcut.unregister("CommandOrControl+X");
+  globalShortcut.unregister("Ctrl+Shift+Space");
 
   // Unregister all shortcuts.
   globalShortcut.unregisterAll();

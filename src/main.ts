@@ -66,7 +66,7 @@ app.on("will-quit", () => {
 
 const ioHook = require("iohook");
 
-ioHook.on("mousemove", (e: any) => {
+ioHook.on("mousedrag", (e: any) => {
   console.log(e);
 });
 

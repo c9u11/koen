@@ -40,34 +40,19 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.whenReady().then(() => {
-  // Register a 'Ctrl+Shift+Space' shortcut listener.
-  const ret = globalShortcut.register("Ctrl+Shift+Space", () => {
-    console.log("Ctrl+Shift+Space is pressed");
-  });
+// Move the mouse across the screen as a sine wave.
+var robot = require("robotjs");
 
-  if (!ret) {
-    console.log("registration failed");
-  }
+// Speed up the mouse.
+robot.setMouseDelay(2);
 
-  // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered("Ctrl+Shift+Space"));
-});
+var twoPI = Math.PI * 2.0;
+var screenSize = robot.getScreenSize();
+var height = screenSize.height / 2 - 10;
+var width = screenSize.width;
+let y;
 
-app.on("will-quit", () => {
-  // Unregister a shortcut.
-  globalShortcut.unregister("Ctrl+Shift+Space");
-
-  // Unregister all shortcuts.
-  globalShortcut.unregisterAll();
-});
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
-
-const ioHook = require("iohook");
-
-ioHook.on("mousedrag", (e: any) => {
-  console.log(e);
-});
-
-ioHook.start();
+for (var x = 0; x < width; x++) {
+  y = height * Math.sin((twoPI * x) / width) + height;
+  robot.moveMouse(x, y);
+}

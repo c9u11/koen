@@ -1,5 +1,6 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut, clipboard } from "electron";
 import * as path from "path";
+import { keyTap } from "robotjs";
 
 function createWindow() {
   // Create the browser window.
@@ -40,19 +41,37 @@ app.on("window-all-closed", () => {
   }
 });
 
-// Move the mouse across the screen as a sine wave.
-var robot = require("robotjs");
+app.whenReady().then(() => {
+  // Register a 'Ctrl+Shift+Space' shortcut listener.
+  const ret = globalShortcut.register("Ctrl+Shift+Space", () => {
+    console.log("press!");
+    getSelectedText().then((selectedText) => console.log(selectedText));
+  });
 
-// Speed up the mouse.
-robot.setMouseDelay(2);
+  if (!ret) {
+    console.log("registration failed");
+  }
 
-var twoPI = Math.PI * 2.0;
-var screenSize = robot.getScreenSize();
-var height = screenSize.height / 2 - 10;
-var width = screenSize.width;
-let y;
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered("Ctrl+Shift+Space"));
+});
 
-for (var x = 0; x < width; x++) {
-  y = height * Math.sin((twoPI * x) / width) + height;
-  robot.moveMouse(x, y);
-}
+app.on("will-quit", () => {
+  // Unregister a shortcut.
+  globalShortcut.unregister("Ctrl+Shift+Space");
+
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+});
+// In this file you can include the rest of your app"s specific main process
+// code. You can also put them in separate files and require them here.
+
+const getSelectedText = async () => {
+  const currentClipboardContent = clipboard.readText(); // preserve clipboard content
+  clipboard.clear();
+  keyTap("c", process.platform === "darwin" ? "command" : "control");
+  await new Promise((resolve) => setTimeout(resolve, 200)); // add a delay before checking clipboard
+  const selectedText = clipboard.readText();
+  clipboard.writeText(currentClipboardContent);
+  return selectedText;
+};

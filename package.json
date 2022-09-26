@@ -42,7 +42,7 @@
     ]
   },
   "dependencies": {
-    "electron": "^18.0.4",
+    "electron": "^20.2.0",
     "iohook": "^0.9.3"
   }
 }

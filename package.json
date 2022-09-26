@@ -6,7 +6,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "start": "npm run build && electron ./dist/main.js"
+    "start": "npm run build && electron ./dist/main.js",
+    "rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [

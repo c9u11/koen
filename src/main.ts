@@ -1,6 +1,7 @@
 import { app, BrowserWindow, globalShortcut, clipboard } from "electron";
 import * as path from "path";
 import { keyTap } from "robotjs";
+import { convertEngToKor } from "./util/convertEngtoKor";
 
 function createWindow() {
   // Create the browser window.
@@ -44,8 +45,13 @@ app.on("window-all-closed", () => {
 app.whenReady().then(() => {
   // Register a 'Ctrl+Shift+Space' shortcut listener.
   const ret = globalShortcut.register("Ctrl+Shift+Space", () => {
-    console.log("press!");
-    getSelectedText().then((selectedText) => console.log(selectedText));
+    koen()
+      .then(() => {
+        console.log("Convert Success!");
+      })
+      .catch(() => {
+        console.log("Convert Fail!");
+      });
   });
 
   if (!ret) {
@@ -66,12 +72,12 @@ app.on("will-quit", () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-const getSelectedText = async () => {
+const koen = async () => {
   const currentClipboardContent = clipboard.readText(); // preserve clipboard content
   clipboard.clear();
   keyTap("c", process.platform === "darwin" ? "command" : "control");
   await new Promise((resolve) => setTimeout(resolve, 200)); // add a delay before checking clipboard
   const selectedText = clipboard.readText();
   clipboard.writeText(currentClipboardContent);
-  return selectedText;
+  console.log(convertEngToKor(selectedText));
 };

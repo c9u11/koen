@@ -1,6 +1,6 @@
 import { app, BrowserWindow, globalShortcut, clipboard } from "electron";
 import * as path from "path";
-import { keyTap } from "robotjs";
+import { keyTap, typeString } from "robotjs";
 import { convertEngToKor } from "./util/convertEngtoKor";
 
 function createWindow() {
@@ -78,6 +78,6 @@ const koen = async () => {
   keyTap("c", process.platform === "darwin" ? "command" : "control");
   await new Promise((resolve) => setTimeout(resolve, 200)); // add a delay before checking clipboard
   const selectedText = clipboard.readText();
+  typeString(convertEngToKor(selectedText));
   clipboard.writeText(currentClipboardContent);
-  console.log(convertEngToKor(selectedText));
 };

@@ -43,8 +43,8 @@ app.on("window-all-closed", () => {
 });
 
 app.whenReady().then(() => {
-  // Register a 'Ctrl+Shift+Space' shortcut listener.
-  const ret = globalShortcut.register("Ctrl+Shift+Space", () => {
+  // Register a 'Shift+Space' shortcut listener.
+  const ret = globalShortcut.register("Shift+Space", () => {
     koen()
       .then(() => {
         console.log("Convert Success!");
@@ -59,13 +59,12 @@ app.whenReady().then(() => {
   }
 
   // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered("Ctrl+Shift+Space"));
+  console.log(globalShortcut.isRegistered("Shift+Space"));
 });
 
 app.on("will-quit", () => {
   // Unregister a shortcut.
-  globalShortcut.unregister("Ctrl+Shift+Space");
-
+  globalShortcut.unregister("Shift+Space");
   // Unregister all shortcuts.
   globalShortcut.unregisterAll();
 });

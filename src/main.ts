@@ -42,41 +42,61 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.whenReady().then(() => {
-  // Register a 'Shift+Space' shortcut listener.
-  const ret = globalShortcut.register("Shift+Space", () => {
-    koen()
-      .then(() => {
-        console.log("Convert Success!");
-      })
-      .catch(() => {
-        console.log("Convert Fail!");
-      });
-  });
-
-  if (!ret) {
-    console.log("registration failed");
-  }
-
-  // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered("Shift+Space"));
-});
-
-app.on("will-quit", () => {
-  // Unregister a shortcut.
-  globalShortcut.unregister("Shift+Space");
-  // Unregister all shortcuts.
-  globalShortcut.unregisterAll();
-});
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
+/* 
+  Main Function
+*/
+let shortcutKey: string[] = ["Shift", "Space"];
 const koen = async () => {
-  const currentClipboardContent = clipboard.readText(); // preserve clipboard content
+  const currentClipboardContent = clipboard.readText();
   clipboard.clear();
   keyTap("c", process.platform === "darwin" ? "command" : "control");
-  await new Promise((resolve) => setTimeout(resolve, 200)); // add a delay before checking clipboard
+  await new Promise((resolve) => setTimeout(resolve, 200));
   const selectedText = clipboard.readText();
-  typeString(convertEngToKor(selectedText));
+  const convertedText = convertEngToKor(selectedText);
   clipboard.writeText(currentClipboardContent);
+  typeString(convertedText);
+  return {
+    selectedText,
+    convertedText,
+  };
 };
+
+const shortcutHandler = () => {
+  koen()
+    .then((result) => {
+      console.log(`Conversion Success : ${result.convertedText}`);
+    })
+    .catch((result) => {
+      console.log(`Conversion Failed : ${result.selectedText}`);
+    });
+};
+
+const registerShortcut = () => {
+  const shortcutKeyString = shortcutKey.join("+");
+  // Register a shortcut listener.
+  const ret = globalShortcut.register(shortcutKeyString, shortcutHandler);
+  let isRegisterd = ret && globalShortcut.isRegistered(shortcutKeyString);
+
+  console.log(
+    `Registration ${isRegisterd ? "Success" : "Failed"} : ${shortcutKeyString}`
+  );
+};
+
+const unregisterShortcut = () => {
+  const shortcutKeyString = shortcutKey.join("+");
+  // Unregister a shortcut.
+  globalShortcut.unregister(shortcutKeyString);
+};
+
+app.whenReady().then(() => {
+  registerShortcut();
+});
+
+app.on("will-quit", () => {
+  unregisterShortcut();
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+});

@@ -89,7 +89,6 @@ export const convertEngToKor = (text: string) => {
     jung: string,
     jong: string
   ) {
-    console.log(substring, cho, jung, jong);
     return String.fromCharCode(
       engChosung.indexOf(cho) * 588 +
         engJungsung[jung] * 28 +
@@ -99,6 +98,5 @@ export const convertEngToKor = (text: string) => {
   };
 
   const result = text.replace(regExp, converter);
-  console.log(result);
   return result;
 };

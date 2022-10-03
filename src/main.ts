@@ -1,4 +1,10 @@
-import { app, BrowserWindow, globalShortcut, clipboard } from "electron";
+import {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  clipboard,
+  ipcMain,
+} from "electron";
 import * as path from "path";
 import { keyTap, typeString } from "robotjs";
 import { convertEngToKor } from "./util/convertEngtoKor";
@@ -9,6 +15,8 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
+      contextIsolation: false,
     },
     width: 800,
   });
@@ -93,6 +101,14 @@ const unregisterShortcut = () => {
 
 app.whenReady().then(() => {
   registerShortcut();
+  ipcMain.on("onInputValue", (evt, payload) => {
+    console.log("on ipcMain event:: ", payload);
+
+    const computedPayload = payload + "(computed)";
+
+    // replyInputValue 송신 또는 응답
+    evt.reply("replyInputValue", computedPayload);
+  });
 });
 
 app.on("will-quit", () => {

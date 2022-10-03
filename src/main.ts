@@ -26,6 +26,11 @@ function createWindow() {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  mainWindow.webContents.on("did-finish-load", () => {
+    // onWebcontentsValue 이벤트 송신
+    mainWindow.webContents.send("onWebcontentsValue", "on load...");
+  });
 }
 
 // This method will be called when Electron has finished

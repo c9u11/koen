@@ -25,15 +25,17 @@ const appMain: AppMainInterface = {};
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   appMain.settingWindow = new BrowserWindow({
+    title: "KoEn",
     width: 800,
     height: 600,
     center: true,
-    minimizable: false,
     show: false,
+    resizable: false,
+    fullscreenable: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: true,
-      sandbox: true,
+      // sandbox: true,
       contextIsolation: false,
     },
   });

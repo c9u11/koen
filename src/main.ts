@@ -34,7 +34,7 @@ app.on("ready", () => {
     resizable: false,
     fullscreenable: false,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       webSecurity: true,
       // sandbox: true,
       contextIsolation: false,

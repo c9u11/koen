@@ -13,12 +13,13 @@ import { keyTap, typeString } from "robotjs";
 import { convertEngToKor } from "./util/convertEngtoKor";
 
 interface AppMainInterface {
+  enabled: boolean;
   settingWindow?: BrowserWindow;
   tray?: Tray;
   icons?: BrowserWindow;
 }
 
-const appMain: AppMainInterface = {};
+const appMain: AppMainInterface = { enabled: true };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -43,8 +44,10 @@ app.on("ready", () => {
     {
       label: "KoEn 활성화",
       type: "checkbox",
+      checked: appMain.enabled,
       click: (item, window, event) => {
-        console.log("활성화 버튼 클릭");
+        appMain.enabled = item.checked;
+        console.log(`KoEn 활성화 : ${appMain.enabled}`);
       },
     },
     { type: "separator" },
@@ -107,13 +110,14 @@ const koen = async () => {
 };
 
 const shortcutHandler = () => {
-  koen()
-    .then((result) => {
-      console.log(`Conversion Success : ${result.convertedText}`);
-    })
-    .catch((result) => {
-      console.log(`Conversion Failed : ${result.selectedText}`);
-    });
+  if (appMain.enabled)
+    koen()
+      .then((result) => {
+        console.log(`Conversion Success : ${result.convertedText}`);
+      })
+      .catch((result) => {
+        console.log(`Conversion Failed : ${result.selectedText}`);
+      });
 };
 
 const registerShortcut = () => {

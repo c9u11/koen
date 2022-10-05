@@ -70,6 +70,7 @@ app.on("ready", () => {
   });
   appMain.tray = new Tray(nativeImage.createEmpty());
   appMain.tray.setToolTip("KoEn");
+  appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(menu);
   // app.on("activate", function () {
   //   // On macOS it's common to re-create a window in the app when the

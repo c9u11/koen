@@ -11,15 +11,20 @@ import {
 import * as path from "path";
 import { keyTap, typeString } from "robotjs";
 import { convertEngToKor } from "./util/convertEngtoKor";
+import { IPC_DEFAULT_SETTING } from "./constant/ipc";
 
 interface AppMainInterface {
   enabled: boolean;
+  shortcutKey: string[];
   settingWindow?: BrowserWindow;
   tray?: Tray;
   icons?: BrowserWindow;
 }
 
-const appMain: AppMainInterface = { enabled: true };
+const appMain: AppMainInterface = {
+  enabled: true,
+  shortcutKey: ["Shift", "Space"],
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -60,9 +65,13 @@ app.on("ready", () => {
     { role: "quit", label: "KoEn 종료" },
   ]);
   appMain.settingWindow.loadFile(path.join(__dirname, "../index.html"));
+  appMain.settingWindow.webContents.openDevTools();
   appMain.settingWindow.webContents.on("did-finish-load", () => {
     // onWebcontentsValue 이벤트 송신
-    appMain.settingWindow.webContents.send("onWebcontentsValue", "on load...");
+    appMain.settingWindow.webContents.send(
+      IPC_DEFAULT_SETTING,
+      appMain.shortcutKey
+    );
   });
   appMain.settingWindow.on("close", (ev: Electron.Event) => {
     appMain.settingWindow.hide();
@@ -93,7 +102,6 @@ app.on("window-all-closed", () => {
 /* 
   Main Function
 */
-let shortcutKey: string[] = ["Shift", "Space"];
 const koen = async () => {
   const currentClipboardContent = clipboard.readText();
   clipboard.clear();
@@ -121,7 +129,7 @@ const shortcutHandler = () => {
 };
 
 const registerShortcut = () => {
-  const shortcutKeyString = shortcutKey.join("+");
+  const shortcutKeyString = appMain.shortcutKey.join("+");
   // Register a shortcut listener.
   const ret = globalShortcut.register(shortcutKeyString, shortcutHandler);
   let isRegisterd = ret && globalShortcut.isRegistered(shortcutKeyString);
@@ -132,7 +140,7 @@ const registerShortcut = () => {
 };
 
 const unregisterShortcut = () => {
-  const shortcutKeyString = shortcutKey.join("+");
+  const shortcutKeyString = appMain.shortcutKey.join("+");
   // Unregister a shortcut.
   globalShortcut.unregister(shortcutKeyString);
 };

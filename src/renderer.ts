@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron");
+const { IPC_DEFAULT_SETTING } = require("./dist/constant/ipc");
 
 window.onload = () => {
   const btnEl = document.getElementById("btn");
@@ -18,7 +19,7 @@ window.onload = () => {
   });
 
   // onWebcontentsValue에 대한 이벤트 수신
-  ipcRenderer.on("onWebcontentsValue", (evt, payload) => {
+  ipcRenderer.on(IPC_DEFAULT_SETTING, (evt, payload) => {
     document.getElementById("text-box").textContent = payload;
   });
 };

@@ -11,7 +11,11 @@ import {
 import * as path from "path";
 import { keyTap, typeString } from "robotjs";
 import { convertEngToKor } from "./util/convertEngtoKor";
-import { IPC_DEFAULT_SETTING } from "./constant/ipc";
+import {
+  IPC_DEFAULT_SETTING,
+  IPC_CHANGE_SHORTCUT,
+  IPC_GET_SHORTCUT,
+} from "./constant/ipc";
 
 interface AppMainInterface {
   enabled: boolean;
@@ -148,13 +152,11 @@ const unregisterShortcut = () => {
 
 app.whenReady().then(() => {
   registerShortcut();
-  ipcMain.on("onInputValue", (evt, payload) => {
-    console.log("on ipcMain event:: ", payload);
+  ipcMain.on(IPC_CHANGE_SHORTCUT, (evt, payload) => {
+    console.log("IPC_CHANGE_SHORTCUT : ", payload);
 
-    const computedPayload = payload + "(computed)";
-
-    // replyInputValue 송신 또는 응답
-    evt.reply("replyInputValue", computedPayload);
+    // IPC_GET_SHORTCUT 송신 또는 응답
+    evt.reply(IPC_GET_SHORTCUT, payload);
   });
 });
 

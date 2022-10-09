@@ -1,5 +1,9 @@
 const { ipcRenderer } = require("electron");
-const { IPC_DEFAULT_SETTING } = require("./dist/constant/ipc");
+const {
+  IPC_DEFAULT_SETTING,
+  IPC_CHANGE_SHORTCUT,
+  IPC_GET_SHORTCUT,
+} = require("./dist/constant/ipc");
 
 window.onload = () => {
   const btnEl = document.getElementById("btn");
@@ -9,16 +13,16 @@ window.onload = () => {
       document.getElementById("text-input") as HTMLInputElement
     ).value;
 
-    // onInputValue 이벤트 송신
-    ipcRenderer.send("onInputValue", inputValue);
+    // IPC_CHANGE_SHORTCUT 이벤트 송신
+    ipcRenderer.send(IPC_CHANGE_SHORTCUT, inputValue);
   });
 
-  // replyInputValue에 대한 응답 수신
-  ipcRenderer.on("replyInputValue", (evt, payload) => {
+  // IPC_GET_SHORTCUT에 대한 응답 수신
+  ipcRenderer.on(IPC_GET_SHORTCUT, (evt, payload) => {
     document.getElementById("text-box").textContent = payload;
   });
 
-  // onWebcontentsValue에 대한 이벤트 수신
+  // IPC_DEFAULT_SETTING에 대한 이벤트 수신
   ipcRenderer.on(IPC_DEFAULT_SETTING, (evt, payload) => {
     document.getElementById("text-box").textContent = payload;
   });

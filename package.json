@@ -44,7 +44,7 @@
     ]
   },
   "dependencies": {
-    "electron": "^18.0.4",
+    "electron": "^21.1.0",
     "robotjs": "^0.6.0"
   }
 }

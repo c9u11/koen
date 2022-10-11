@@ -158,7 +158,7 @@ app.whenReady().then(() => {
   ipcMain.on(IPC_CHANGE_SHORTCUT, (evt, payload) => {
     console.log("IPC_CHANGE_SHORTCUT : ", payload);
     unregisterShortcut();
-    appMain.shortcutKey = ["Option", payload];
+    appMain.shortcutKey = payload;
     registerShortcut();
     // IPC_GET_SHORTCUT 송신 또는 응답
     evt.reply(IPC_GET_SHORTCUT, payload);

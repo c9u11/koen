@@ -3,21 +3,27 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
-  <script src="./dist/renderer.js"></script>
-
   <div>
-    <input id="text-input" type="text">
-
-    <button id="btn">Click</button>
+    <input type="checkbox">KoEn 활성화</input>
   </div>
-
-  <div>
-    <span>computed input value => </span>
-    <span id="text-box" style="color: red"></span>
-  </div>
+  <form id="setting-form">
+    <select id="modifier-select" multiple required>
+      <option value="Cmd">Command</option>
+      <option value="Ctrl">Control</option>
+      <option value="Option">Option</option>
+      <option value="Shift">Shift</option>
+    </select>
+    +
+    <input id="key-select" type="text" placeholder="Key Code" required></input>
+    <button id="save-btn" type="submit">저장</button>
+    <button id="cancel-btn" type="button">취소</button>
+  </form>
 </body>
+
+<script src="./dist/renderer.js"></script>
 
 </html>

@@ -1,0 +1,20 @@
+body {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  margin: unset;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+#setting-form {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+select option[value=""][disabled] {
+  display: none;
+}

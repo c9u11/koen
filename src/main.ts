@@ -136,11 +136,8 @@ const shortcutHandler = () => {
 const registerShortcut = () => {
   const shortcutKeyString = appMain.shortcutKey.join("+");
   // Register a shortcut listener.
-  console.log(shortcutKeyString);
   const ret = globalShortcut.register(shortcutKeyString, shortcutHandler);
-  console.log(shortcutKeyString);
   let isRegisterd = ret && globalShortcut.isRegistered(shortcutKeyString);
-  console.log(shortcutKeyString);
 
   console.log(
     `Registration ${isRegisterd ? "Success" : "Failed"} : ${shortcutKeyString}`
@@ -156,7 +153,6 @@ const unregisterShortcut = () => {
 app.whenReady().then(() => {
   registerShortcut();
   ipcMain.on(IPC_CHANGE_SHORTCUT, (evt, payload) => {
-    console.log("IPC_CHANGE_SHORTCUT : ", payload);
     unregisterShortcut();
     appMain.shortcutKey = payload;
     registerShortcut();

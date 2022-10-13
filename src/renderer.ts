@@ -15,7 +15,6 @@ window.onload = () => {
         document.getElementById("key-select") as HTMLInputElement
       ).value.toUpperCase(),
     ];
-    console.log(inputValue);
 
     // IPC_CHANGE_SHORTCUT 이벤트 송신
     ipcRenderer.send(IPC_CHANGE_SHORTCUT, inputValue);

@@ -14,9 +14,9 @@ import { convertEngToKor } from "./util/convertEngtoKor";
 import {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
-  IPC_GET_SHORTCUT,
+  IPC_CHANGED_SHORTCUT,
   IPC_SET_ENABLED,
-  IPC_GET_ENABLED,
+  IPC_CHANGED_ENABLED,
 } from "./constant/ipc";
 
 interface AppMainInterface {
@@ -157,6 +157,10 @@ const unregisterShortcut = () => {
 const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
   appMain.menu.getMenuItemById("enabled").checked = enabled;
+  appMain.settingWindow.webContents.send(IPC_CHANGED_ENABLED, {
+    shortcutKey: appMain.shortcutKey,
+    enabled: appMain.enabled,
+  });
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
 };
 
@@ -166,12 +170,12 @@ app.whenReady().then(() => {
     unregisterShortcut();
     appMain.shortcutKey = payload;
     registerShortcut();
-    // IPC_GET_SHORTCUT 송신 또는 응답
-    evt.reply(IPC_GET_SHORTCUT, payload);
+    // IPC_CHANGED_SHORTCUT 송신 또는 응답
+    evt.reply(IPC_CHANGED_SHORTCUT, payload);
   });
   ipcMain.on(IPC_SET_ENABLED, (evt, payload: boolean) => {
     setEnabled(payload);
-    evt.reply(IPC_GET_ENABLED, payload);
+    evt.reply(IPC_CHANGED_ENABLED, payload);
   });
 });
 

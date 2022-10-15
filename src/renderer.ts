@@ -2,9 +2,9 @@ const { ipcRenderer } = require("electron");
 const {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
-  IPC_GET_SHORTCUT,
+  IPC_CHANGED_SHORTCUT,
   IPC_SET_ENABLED,
-  IPC_GET_ENABLED,
+  IPC_CHANGED_ENABLED,
 } = require("./dist/constant/ipc");
 
 window.onload = () => {
@@ -21,8 +21,8 @@ window.onload = () => {
     ipcRenderer.send(IPC_SET_SHORTCUT, inputValue);
   });
 
-  // IPC_GET_SHORTCUT에 대한 응답 수신
-  ipcRenderer.on(IPC_GET_SHORTCUT, (evt, payload) => {
+  // IPC_CHANGED_SHORTCUT에 대한 응답 수신
+  ipcRenderer.on(IPC_CHANGED_SHORTCUT, (evt, payload) => {
     // document.getElementById("text-box").textContent = payload;
   });
 
@@ -31,7 +31,7 @@ window.onload = () => {
     ipcRenderer.send(IPC_SET_ENABLED, toggleBtn.checked);
   });
 
-  ipcRenderer.on(IPC_GET_ENABLED, (evt, payload) => {
+  ipcRenderer.on(IPC_CHANGED_ENABLED, (evt, payload) => {
     toggleBtn.checked = payload;
   });
 

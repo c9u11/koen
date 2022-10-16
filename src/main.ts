@@ -157,10 +157,7 @@ const unregisterShortcut = () => {
 const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
   appMain.menu.getMenuItemById("enabled").checked = enabled;
-  appMain.settingWindow.webContents.send(IPC_CHANGED_ENABLED, {
-    shortcutKey: appMain.shortcutKey,
-    enabled: appMain.enabled,
-  });
+  appMain.settingWindow.webContents.send(IPC_CHANGED_ENABLED, enabled);
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
 };
 

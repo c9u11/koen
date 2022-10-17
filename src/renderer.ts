@@ -39,8 +39,7 @@ window.onload = () => {
   ipcRenderer.on(
     IPC_DEFAULT_SETTING,
     (evt, payload: { enabled: boolean; shortcutKey: string[] }) => {
-      console.log("test", payload);
-      toggleBtn.nodeValue = String(payload.enabled);
+      toggleBtn.checked = payload.enabled;
       // document.getElementById("text-box").textContent = payload;
     }
   );

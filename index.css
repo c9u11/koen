@@ -14,7 +14,29 @@ body {
   width: 100%;
   justify-content: space-around;
   align-items: center;
+  gap: 30px;
 }
-select option[value=""][disabled] {
-  display: none;
+
+#shortcut-input {
+  cursor: text;
+  flex: 1;
+  height: 100%;
+  margin: 0px;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+#shortcut-input:focus {
+  background-color: #ddd;
+}
+
+#setting-form > .action-div {
+  display: flex;
+  height: 100%;
+  margin: 0px;
+  box-sizing: border-box;
+  gap: 5px;
+}
+
+#setting-form > .action-div > button {
+  cursor: pointer;
 }

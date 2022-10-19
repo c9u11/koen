@@ -17,6 +17,8 @@ import {
   IPC_CHANGED_SHORTCUT,
   IPC_SET_ENABLED,
   IPC_CHANGED_ENABLED,
+  IPC_SETTING_START,
+  IPC_SETTING_END,
 } from "./constant/ipc";
 
 interface AppMainInterface {
@@ -77,7 +79,7 @@ app.on("ready", () => {
   appMain.settingWindow.webContents.on("did-finish-load", () => {
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
-      shortcutKey: appMain.shortcutKey,
+      defaultShortcutKey: appMain.shortcutKey,
       enabled: appMain.enabled,
     });
   });
@@ -173,6 +175,12 @@ app.whenReady().then(() => {
   ipcMain.on(IPC_SET_ENABLED, (evt, payload: boolean) => {
     setEnabled(payload);
     evt.reply(IPC_CHANGED_ENABLED, payload);
+  });
+  ipcMain.on(IPC_SETTING_START, () => {
+    unregisterShortcut();
+  });
+  ipcMain.on(IPC_SETTING_END, () => {
+    registerShortcut();
   });
 });
 

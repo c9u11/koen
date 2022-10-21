@@ -10,14 +10,31 @@ const {
 } = require("./dist/constant/ipc");
 
 window.onload = () => {
+  // Variables
+  let settedShortcutKey: string[] = [];
+  const unAvailableList: string[] = [];
+
+  // Elements
+  const toggleBtn = document.getElementById("toggle-btn") as HTMLInputElement;
   const shortcutInput = document.getElementById(
     "shortcut-input"
   ) as HTMLInputElement;
   const saveShortcutBtn = document.getElementById("save-btn");
   const cancelShortcutBtn = document.getElementById("cancel-btn");
-  const unAvailableList: string[] = [];
-  let settedShortcutKey: string[] = [];
+  const enabledChangedHandler = (enabled: boolean) => {
+    toggleBtn.checked = enabled;
+  };
+  const setShortcutInputValue = (val: string[]) =>
+    (shortcutInput.value = val.join(" + "));
+  const shortcutChangedHandler = (shorcutKey: string[]) => {
+    settedShortcutKey = shorcutKey;
+    setShortcutInputValue(settedShortcutKey);
+  };
 
+  // Element Events Listener
+  toggleBtn.addEventListener("click", (evt) => {
+    ipcRenderer.send(IPC_SET_ENABLED, toggleBtn.checked);
+  });
   shortcutInput.addEventListener("keydown", (evt) => {
     evt.preventDefault();
     const key = evt.code === "Space" ? "Space" : evt.key;
@@ -35,46 +52,31 @@ window.onload = () => {
     if (["Alt", "Control", "Meta", "Shift"].indexOf(key) === -1)
       tempShortcutKey.push(key);
 
-    shortcutInput.value = tempShortcutKey.join(" + ");
+    setShortcutInputValue(tempShortcutKey);
   });
-
   shortcutInput.addEventListener("keyup", (evt) => {
     if (evt.shiftKey || evt.metaKey || evt.ctrlKey || evt.altKey) return;
     ipcRenderer.send(IPC_SETTING_END);
   });
-
   saveShortcutBtn.addEventListener("click", (evt) => {
-    const inputValue = shortcutInput.value.split(" + ");
-    // IPC_SET_SHORTCUT 이벤트 송신
-    ipcRenderer.send(IPC_SET_SHORTCUT, inputValue);
+    ipcRenderer.send(IPC_SET_SHORTCUT, shortcutInput.value.split(" + "));
   });
-
   cancelShortcutBtn.addEventListener("click", (evt) => {
-    shortcutInput.value = settedShortcutKey.join(" + ");
+    setShortcutInputValue(settedShortcutKey);
   });
 
-  // IPC_CHANGED_SHORTCUT에 대한 응답 수신
-  ipcRenderer.on(IPC_CHANGED_SHORTCUT, (evt, payload: string[]) => {
-    settedShortcutKey = payload;
-    shortcutInput.value = settedShortcutKey.join(" + ");
-  });
-
-  const toggleBtn = document.getElementById("toggle-btn") as HTMLInputElement;
-  toggleBtn.addEventListener("click", (evt) => {
-    ipcRenderer.send(IPC_SET_ENABLED, toggleBtn.checked);
-  });
-
+  // IPC Events Listener
   ipcRenderer.on(IPC_CHANGED_ENABLED, (evt, payload) => {
-    toggleBtn.checked = payload;
+    enabledChangedHandler(payload);
   });
-
-  // IPC_DEFAULT_SETTING에 대한 이벤트 수신
+  ipcRenderer.on(IPC_CHANGED_SHORTCUT, (evt, payload: string[]) => {
+    shortcutChangedHandler(payload);
+  });
   ipcRenderer.on(
     IPC_DEFAULT_SETTING,
     (evt, payload: { enabled: boolean; defaultShortcutKey: string[] }) => {
-      toggleBtn.checked = payload.enabled;
-      settedShortcutKey = payload.defaultShortcutKey;
-      shortcutInput.value = settedShortcutKey.join(" + ");
+      enabledChangedHandler(payload.enabled);
+      shortcutChangedHandler(payload.defaultShortcutKey);
     }
   );
 };

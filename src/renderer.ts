@@ -12,6 +12,17 @@ const {
 window.onload = () => {
   // Variables
   let settedShortcutKey: string[] = [];
+  let isChanged: boolean = false;
+  const setIsChanged = (val: boolean) => {
+    isChanged = val;
+    if (isChanged) {
+      saveShortcutBtn.disabled = false;
+      cancelShortcutBtn.disabled = false;
+    } else {
+      saveShortcutBtn.disabled = true;
+      cancelShortcutBtn.disabled = true;
+    }
+  };
   const unAvailableList: string[] = [];
 
   // Elements
@@ -19,8 +30,12 @@ window.onload = () => {
   const shortcutInput = document.getElementById(
     "shortcut-input"
   ) as HTMLInputElement;
-  const saveShortcutBtn = document.getElementById("save-btn");
-  const cancelShortcutBtn = document.getElementById("cancel-btn");
+  const saveShortcutBtn = document.getElementById(
+    "save-btn"
+  ) as HTMLButtonElement;
+  const cancelShortcutBtn = document.getElementById(
+    "cancel-btn"
+  ) as HTMLButtonElement;
   const enabledChangedHandler = (enabled: boolean) => {
     toggleBtn.checked = enabled;
   };
@@ -29,6 +44,7 @@ window.onload = () => {
   const shortcutChangedHandler = (shorcutKey: string[]) => {
     settedShortcutKey = shorcutKey;
     setShortcutInputValue(settedShortcutKey);
+    setIsChanged(false);
   };
 
   // Element Events Listener
@@ -53,6 +69,7 @@ window.onload = () => {
       tempShortcutKey.push(key);
 
     setShortcutInputValue(tempShortcutKey);
+    setIsChanged(true);
   });
   shortcutInput.addEventListener("keyup", (evt) => {
     if (evt.shiftKey || evt.metaKey || evt.ctrlKey || evt.altKey) return;
@@ -63,6 +80,7 @@ window.onload = () => {
   });
   cancelShortcutBtn.addEventListener("click", (evt) => {
     setShortcutInputValue(settedShortcutKey);
+    setIsChanged(false);
   });
 
   // IPC Events Listener

@@ -68,10 +68,24 @@ hr {
   background-color: transparent;
   border: none;
 }
+
 #action-div > button:disabled {
   cursor: not-allowed;
 }
 
+#conditions > li {
+  color: #999;
+}
+#conditions > li.satisfied {
+  list-style-type: "✓ ";
+  color: #333;
+}
+#condition-modifier > ul > li {
+  color: #aaa;
+}
+#condition-modifier > ul > li.satisfied {
+  color: #555;
+}
 #test-btn {
   width: 100%;
   padding: 5px;

@@ -25,8 +25,14 @@ hr {
   align-items: flex-start;
 }
 
+.container > .container-header {
+  display: flex;
+  justify-content: end;
+  width: 25%;
+}
+
 .container > .container-body {
-  width: 70%;
+  width: 75%;
   margin-left: 10px;
 }
 
@@ -41,6 +47,7 @@ hr {
   box-sizing: border-box;
   border: 1px solid #aaa;
   border-radius: 5px;
+  margin-top: -4px;
 }
 #shortcut-input:focus {
   background-color: #ddd;
@@ -67,4 +74,9 @@ hr {
 
 #test-btn {
   width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  margin-top: -4px;
 }

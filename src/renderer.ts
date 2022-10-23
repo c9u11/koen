@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, clipboard } = require("electron");
 const {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -36,6 +36,7 @@ window.onload = () => {
   const cancelShortcutBtn = document.getElementById(
     "cancel-btn"
   ) as HTMLButtonElement;
+  const testBtn = document.getElementById("test-btn");
   const enabledChangedHandler = (enabled: boolean) => {
     toggleBtn.checked = enabled;
   };
@@ -81,6 +82,19 @@ window.onload = () => {
   cancelShortcutBtn.addEventListener("click", (evt) => {
     setShortcutInputValue(settedShortcutKey);
     setIsChanged(false);
+  });
+
+  testBtn.addEventListener("keydown", (evt) => {
+    if (evt.key === "쾐") console.log("Available");
+    if (
+      evt.shiftKey ||
+      evt.ctrlKey ||
+      evt.altKey ||
+      !evt.metaKey ||
+      evt.key !== "c"
+    )
+      return;
+    clipboard.writeText("zhos");
   });
 
   // IPC Events Listener

@@ -2,41 +2,68 @@ body {
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
-  padding: 20px;
+  padding: 20px 50px;
   margin: unset;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  background-color: #eaeaea;
+  gap: 20px;
 }
-#setting-form {
+
+hr {
+  border: #ccc 0.5px solid;
+  width: 100%;
+}
+
+.container {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: right;
+}
+
+.container > .container-body {
+  width: 70%;
+  margin-left: 10px;
+}
+
+#setting-form {
+  position: relative;
   align-items: center;
-  gap: 30px;
 }
 
 #shortcut-input {
   cursor: text;
-  flex: 1;
   height: 100%;
-  margin: 0px;
+  padding: 5px;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px solid #aaa;
+  border-radius: 5px;
 }
 #shortcut-input:focus {
   background-color: #ddd;
 }
 
 #setting-form > .action-div {
+  position: absolute;
+  right: 0px;
   display: flex;
   height: 100%;
   margin: 0px;
   box-sizing: border-box;
-  gap: 5px;
+  z-index: 1;
 }
 
 #setting-form > .action-div > button {
   cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+#setting-form > .action-div > button:disabled {
+  cursor: not-allowed;
+}
+
+#test-btn {
+  width: 100%;
 }

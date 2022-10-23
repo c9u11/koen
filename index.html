@@ -7,17 +7,25 @@
 </head>
 
 <body>
-  <div>
-    <input id="toggle-btn" type="checkbox" checked>KoEn 활성화</input>
+  <div class="container">
+    <input id="toggle-btn" class="container-header" type="checkbox" checked></input>
+    <label class="container-body">KoEn 활성화</label>
   </div>
-  <form id="setting-form">
-    <input id="shortcut-input"></input>
+  <form id="setting-form" class="container">
+    <label class="container-header">단축키 설정 :</label>
+    <input id="shortcut-input" class="container-body"></input>
     <div class="action-div">
       <button id="save-btn" type="submit">저장</button>
       <button id="cancel-btn" type="button">취소</button>
     </div>
   </form>
-  <button id="test-btn">test</button>
+  <div class="container">
+    <label class="container-header">단축키 검토 :</label>
+    <div class="container-body">
+      <button id="test-btn">이 버튼을 눌러 검토를 시작하세요</button>
+    </div>
+  </div>
+  <hr>
 </body>
 
 <script src="./dist/renderer.js"></script>

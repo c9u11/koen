@@ -13,10 +13,26 @@
   </div>
   <form id="setting-form" class="container">
     <label class="container-header">단축키 설정 :</label>
-    <input id="shortcut-input" class="container-body"></input>
-    <div class="action-div">
-      <button id="save-btn" type="submit">저장</button>
-      <button id="cancel-btn" type="button">취소</button>
+    <div class="container-body">
+      <div class="container">
+        <input id="shortcut-input"></input>
+        <div id="action-div">
+          <button id="save-btn" type="submit">저장</button>
+          <button id="cancel-btn" type="button">취소</button>
+        </div>
+      </div>
+      <ul id="conditions">
+        <li>
+          수정 키 1개 이상 사용
+          <ul>
+            <li>Alt</li>
+            <li>Control</li>
+            <li>Meta (Command)</li>
+            <li>Shift</li>
+          </ul>
+        </li>
+        <li>일반 키 1개 사용</li>
+      </ul>
     </div>
   </form>
   <div class="container">

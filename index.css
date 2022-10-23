@@ -18,9 +18,11 @@ hr {
 }
 
 .container {
+  position: relative;
   display: flex;
   width: 100%;
   justify-content: right;
+  align-items: flex-start;
 }
 
 .container > .container-body {
@@ -30,12 +32,11 @@ hr {
 
 #setting-form {
   position: relative;
-  align-items: center;
 }
 
 #shortcut-input {
   cursor: text;
-  height: 100%;
+  width: 100%;
   padding: 5px;
   box-sizing: border-box;
   border: 1px solid #aaa;
@@ -45,7 +46,7 @@ hr {
   background-color: #ddd;
 }
 
-#setting-form > .action-div {
+#action-div {
   position: absolute;
   right: 0px;
   display: flex;
@@ -55,12 +56,12 @@ hr {
   z-index: 1;
 }
 
-#setting-form > .action-div > button {
+#action-div > button {
   cursor: pointer;
   background-color: transparent;
   border: none;
 }
-#setting-form > .action-div > button:disabled {
+#action-div > button:disabled {
   cursor: not-allowed;
 }
 

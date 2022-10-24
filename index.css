@@ -49,8 +49,14 @@ hr {
   border-radius: 5px;
   margin-top: -4px;
 }
-#shortcut-input:focus {
-  background-color: #ddd;
+#shortcut-input:focus,
+#shortcut-input.changed {
+  border: #febc2e 1px solid;
+  outline: none;
+}
+#shortcut-input.satisfied {
+  border: #28c840 1px solid;
+  outline: none;
 }
 
 #action-div {

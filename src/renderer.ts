@@ -12,17 +12,6 @@ const {
 window.onload = () => {
   // Variables
   let settedShortcutKey: string[] = [];
-  let isChanged: boolean = false;
-  const setIsChanged = (val: boolean) => {
-    isChanged = val;
-    if (isChanged) {
-      saveShortcutBtn.disabled = false;
-      cancelShortcutBtn.disabled = false;
-    } else {
-      saveShortcutBtn.disabled = true;
-      cancelShortcutBtn.disabled = true;
-    }
-  };
   const unAvailableList: string[] = [];
 
   // Elements
@@ -40,12 +29,52 @@ window.onload = () => {
   const enabledChangedHandler = (enabled: boolean) => {
     toggleBtn.checked = enabled;
   };
-  const setShortcutInputValue = (val: string[]) =>
-    (shortcutInput.value = val.join(" + "));
+  const setShortcutInputValue = (val: string[]) => {
+    const isChanged = JSON.stringify(settedShortcutKey) !== JSON.stringify(val);
+    if (isChanged) {
+      const conditions = {
+        key: false,
+        alt: false,
+        control: false,
+        meta: false,
+        shift: false,
+        modifier: false,
+      };
+      for (let key of Object.keys(conditions)) {
+        switch (key) {
+          case "key":
+          case "alt":
+          case "control":
+          case "meta":
+          case "shift":
+          case "modifier":
+            const isSatisfied =
+              key !== "modifier"
+                ? val.indexOf(key) !== -1
+                : conditions.alt ||
+                  conditions.control ||
+                  conditions.meta ||
+                  conditions.shift;
+            console.log(isSatisfied);
+            conditions[key] = isSatisfied;
+            const el = document.getElementById(`condition-${key}`);
+            if (isSatisfied) el.classList.add("satisfied");
+            else el.classList.remove("satisfied");
+            break;
+        }
+      }
+      if (conditions.modifier) saveShortcutBtn.disabled = false;
+      else saveShortcutBtn.disabled = true;
+      cancelShortcutBtn.disabled = false;
+    } else {
+      saveShortcutBtn.disabled = true;
+      cancelShortcutBtn.disabled = true;
+    }
+    shortcutInput.value = val.join(" + ");
+  };
   const shortcutChangedHandler = (shorcutKey: string[]) => {
     settedShortcutKey = shorcutKey;
     setShortcutInputValue(settedShortcutKey);
-    setIsChanged(false);
   };
 
   // Element Events Listener
@@ -70,7 +99,6 @@ window.onload = () => {
       tempShortcutKey.push(key);
 
     setShortcutInputValue(tempShortcutKey);
-    setIsChanged(true);
   });
   shortcutInput.addEventListener("keyup", (evt) => {
     if (evt.shiftKey || evt.metaKey || evt.ctrlKey || evt.altKey) return;
@@ -81,7 +109,6 @@ window.onload = () => {
   });
   cancelShortcutBtn.addEventListener("click", (evt) => {
     setShortcutInputValue(settedShortcutKey);
-    setIsChanged(false);
   });
 
   testBtn.addEventListener("keydown", (evt) => {

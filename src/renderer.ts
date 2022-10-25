@@ -33,37 +33,37 @@ window.onload = () => {
     const isChanged = JSON.stringify(settedShortcutKey) !== JSON.stringify(val);
     if (isChanged) {
       const conditions = {
-        key: false,
-        alt: false,
-        control: false,
-        meta: false,
-        shift: false,
-        modifier: false,
+        Key: false,
+        Alt: false,
+        Control: false,
+        Meta: false,
+        Shift: false,
+        Modifier: false,
       };
-      for (let key of Object.keys(conditions)) {
+      for (let key of val) {
         switch (key) {
-          case "key":
-          case "alt":
-          case "control":
-          case "meta":
-          case "shift":
-          case "modifier":
-            const isSatisfied =
-              key !== "modifier"
-                ? val.indexOf(key) !== -1
-                : conditions.alt ||
-                  conditions.control ||
-                  conditions.meta ||
-                  conditions.shift;
-            console.log(isSatisfied);
-            conditions[key] = isSatisfied;
-            const el = document.getElementById(`condition-${key}`);
-            if (isSatisfied) el.classList.add("satisfied");
-            else el.classList.remove("satisfied");
+          case "Alt":
+          case "Control":
+          case "Meta":
+          case "Shift":
+            conditions[key] = true;
+            conditions["Modifier"] = true;
+            break;
+          default:
+            conditions["Key"] = true;
             break;
         }
       }
-      if (conditions.modifier) saveShortcutBtn.disabled = false;
+      for (let key of Object.keys(conditions)) {
+        const classList = document.getElementById(
+          `condition-${key.toLowerCase()}`
+        ).classList;
+        if (conditions[key as "Key" | "Alt" | "Control" | "Meta" | "Shift"])
+          classList.add("satisfied");
+        else classList.remove("satisfied");
+      }
+      if (conditions.Modifier && conditions.Key)
+        saveShortcutBtn.disabled = false;
       else saveShortcutBtn.disabled = true;
       cancelShortcutBtn.disabled = false;
     } else {

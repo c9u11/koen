@@ -61,9 +61,13 @@ window.onload = () => {
         classList.add("satisfied");
       else classList.remove("satisfied");
     }
-    if (isChanged && conditions.Modifier && conditions.Key)
+    if (isChanged && conditions.Modifier && conditions.Key) {
       saveShortcutBtn.disabled = false;
-    else saveShortcutBtn.disabled = true;
+      shortcutInput.classList.add("satisfied");
+    } else {
+      saveShortcutBtn.disabled = true;
+      shortcutInput.classList.remove("satisfied");
+    }
     if (isChanged) {
       cancelShortcutBtn.disabled = false;
     } else {

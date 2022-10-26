@@ -84,6 +84,9 @@ window.onload = () => {
   toggleBtn.addEventListener("click", (evt) => {
     ipcRenderer.send(IPC_SET_ENABLED, toggleBtn.checked);
   });
+  shortcutInput.addEventListener("focus", (evt) => {
+    setShortcutInputValue([]);
+  });
   shortcutInput.addEventListener("keydown", (evt) => {
     evt.preventDefault();
     const key = evt.code === "Space" ? "Space" : evt.key;

@@ -31,43 +31,42 @@ window.onload = () => {
   };
   const setShortcutInputValue = (val: string[]) => {
     const isChanged = JSON.stringify(settedShortcutKey) !== JSON.stringify(val);
+    const conditions = {
+      Key: false,
+      Alt: false,
+      Control: false,
+      Meta: false,
+      Shift: false,
+      Modifier: false,
+    };
+    for (let key of val) {
+      switch (key) {
+        case "Alt":
+        case "Control":
+        case "Meta":
+        case "Shift":
+          conditions[key] = true;
+          conditions["Modifier"] = true;
+          break;
+        default:
+          conditions["Key"] = true;
+          break;
+      }
+    }
+    for (let key of Object.keys(conditions)) {
+      const classList = document.getElementById(
+        `condition-${key.toLowerCase()}`
+      ).classList;
+      if (conditions[key as "Key" | "Alt" | "Control" | "Meta" | "Shift"])
+        classList.add("satisfied");
+      else classList.remove("satisfied");
+    }
+    if (isChanged && conditions.Modifier && conditions.Key)
+      saveShortcutBtn.disabled = false;
+    else saveShortcutBtn.disabled = true;
     if (isChanged) {
-      const conditions = {
-        Key: false,
-        Alt: false,
-        Control: false,
-        Meta: false,
-        Shift: false,
-        Modifier: false,
-      };
-      for (let key of val) {
-        switch (key) {
-          case "Alt":
-          case "Control":
-          case "Meta":
-          case "Shift":
-            conditions[key] = true;
-            conditions["Modifier"] = true;
-            break;
-          default:
-            conditions["Key"] = true;
-            break;
-        }
-      }
-      for (let key of Object.keys(conditions)) {
-        const classList = document.getElementById(
-          `condition-${key.toLowerCase()}`
-        ).classList;
-        if (conditions[key as "Key" | "Alt" | "Control" | "Meta" | "Shift"])
-          classList.add("satisfied");
-        else classList.remove("satisfied");
-      }
-      if (conditions.Modifier && conditions.Key)
-        saveShortcutBtn.disabled = false;
-      else saveShortcutBtn.disabled = true;
       cancelShortcutBtn.disabled = false;
     } else {
-      saveShortcutBtn.disabled = true;
       cancelShortcutBtn.disabled = true;
     }
     shortcutInput.value = val.join(" + ");

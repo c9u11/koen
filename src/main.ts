@@ -115,10 +115,16 @@ app.on("window-all-closed", () => {
 */
 const koen = async () => {
   const currentClipboardContent = clipboard.readText();
-  clipboard.clear();
-  keyTap("c", process.platform === "darwin" ? "command" : "control");
-  await new Promise((resolve) => setTimeout(resolve, 200));
-  const selectedText = clipboard.readText();
+  let selectedText = "";
+  console.log(currentClipboardContent);
+  if (currentClipboardContent === "ITISKOENTESTTEXT") {
+    selectedText = "zhos";
+  } else {
+    clipboard.clear();
+    keyTap("c", process.platform === "darwin" ? "command" : "control");
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    selectedText = clipboard.readText();
+  }
   const convertedText = convertEngToKor(selectedText);
   clipboard.writeText(currentClipboardContent);
   typeString(convertedText);

@@ -13,6 +13,7 @@ window.onload = () => {
   // Variables
   let settedShortcutKey: string[] = [];
   const unAvailableList: string[] = [];
+  let currentClipboardContent: string = "";
 
   // Elements
   const toggleBtn = document.getElementById("toggle-btn") as HTMLInputElement;
@@ -117,17 +118,32 @@ window.onload = () => {
     setShortcutInputValue(settedShortcutKey);
   });
 
+  testBtn.addEventListener("focusin", (evt) => {
+    testBtn.classList.add("isTesting");
+    currentClipboardContent = clipboard.readText();
+    clipboard.writeText("ITISKOENTESTTEXT");
+  });
+  testBtn.addEventListener("focusout", (evt) => {
+    testBtn.classList.remove("isTesting");
+    clipboard.writeText(currentClipboardContent);
+    currentClipboardContent = "";
+  });
+
   testBtn.addEventListener("keydown", (evt) => {
-    if (evt.key === "쾐") console.log("Available");
-    if (
-      evt.shiftKey ||
-      evt.ctrlKey ||
-      evt.altKey ||
-      !evt.metaKey ||
-      evt.key !== "c"
-    )
-      return;
-    clipboard.writeText("zhos");
+    const isPressedModifier =
+      evt.altKey || evt.shiftKey || evt.ctrlKey || evt.metaKey;
+    const isPressedKey =
+      ["Alt", "Control", "Meta", "Shift"].indexOf(evt.key) === -1;
+
+    if (isPressedKey && isPressedModifier) {
+      if (evt.key === "쾐") {
+        testBtn.classList.add("success");
+        testBtn.classList.remove("fail");
+      } else {
+        testBtn.classList.remove("success");
+        testBtn.classList.add("fail");
+      }
+    }
   });
 
   // IPC Events Listener

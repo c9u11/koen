@@ -122,9 +122,11 @@ window.onload = () => {
     testBtn.classList.add("isTesting");
     currentClipboardContent = clipboard.readText();
     clipboard.writeText("ITISKOENTESTTEXT");
+    testBtn.innerText = "단축키를 입력하여 결과를 확인하세요";
   });
   testBtn.addEventListener("focusout", (evt) => {
-    testBtn.classList.remove("isTesting");
+    testBtn.classList.remove("isTesting", "success", "fail");
+    testBtn.innerText = "이 버튼을 눌러 검토를 시작하세요";
     clipboard.writeText(currentClipboardContent);
     currentClipboardContent = "";
   });
@@ -139,9 +141,11 @@ window.onload = () => {
       if (evt.key === "쾐") {
         testBtn.classList.add("success");
         testBtn.classList.remove("fail");
+        testBtn.innerText = "한/영 변환 성공";
       } else {
         testBtn.classList.remove("success");
         testBtn.classList.add("fail");
+        testBtn.innerText = "한/영 변환 실패";
       }
     }
   });

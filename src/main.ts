@@ -116,7 +116,6 @@ app.on("window-all-closed", () => {
 const koen = async () => {
   const currentClipboardContent = clipboard.readText();
   let selectedText = "";
-  console.log(currentClipboardContent);
   if (currentClipboardContent === "ITISKOENTESTTEXT") {
     selectedText = "zhos";
   } else {

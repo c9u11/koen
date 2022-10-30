@@ -7,7 +7,12 @@
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
     "start": "npm run build && electron ./dist/main.js",
-    "rebuild": "./node_modules/.bin/electron-rebuild"
+    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "postinstall": "electron-builder install-app-deps",
+    "deploy:xos": "electron-builder --mac",
+    "deploy:win32": "electron-builder --win --ia32",
+    "deploy:win64": "electron-builder --win --x64",
+    "deploy:win": "yarn deploy:win32 && yarn deploy:win64"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [
@@ -25,6 +30,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "electron-rebuild": "^3.2.9",
     "eslint": "^7.32.0",
+    "electron": "^18.0.4",
     "typescript": "^4.7.2"
   },
   "iohook": {
@@ -44,7 +50,42 @@
     ]
   },
   "dependencies": {
-    "electron": "^18.0.4",
     "robotjs": "^0.6.0"
+  },
+  "build": {
+    "productName": "KoEn",
+    "appId": "com.koen.electron",
+    "asar": true,
+    "mac": {
+      "target": [
+        "default"
+      ],
+      "icon": "build/icons/icon.icns"
+    },
+    "dmg": {
+      "title": "KoEn",
+      "icon": "build/icons/icon.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icons/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "perMachine": true,
+      "language": 1042,
+      "installerIcon": "build/icons/icon.ico",
+      "shortcutName": "KoEn",
+      "artifactName": "KoEn-${version}.${ext}",
+      "uninstallDisplayName": "KoEn"
+    },
+    "directories": {
+      "buildResources": "./resources/installer/",
+      "output": "./dist/"
+    }
   }
 }

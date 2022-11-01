@@ -41,8 +41,8 @@ const appMain: AppMainInterface = {
 app.on("ready", () => {
   appMain.settingWindow = new BrowserWindow({
     title: "KoEn",
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 400,
     center: true,
     show: false,
     resizable: false,
@@ -75,7 +75,7 @@ app.on("ready", () => {
   ]);
 
   appMain.settingWindow.loadFile(path.join(__dirname, "../index.html"));
-  appMain.settingWindow.webContents.openDevTools();
+  // appMain.settingWindow.webContents.openDevTools();
   appMain.settingWindow.webContents.on("did-finish-load", () => {
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {

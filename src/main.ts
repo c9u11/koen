@@ -72,10 +72,10 @@ app.on("ready", () => {
       },
     },
     {
-      role: "quit",
+      // role: "quit",
       label: "KoEn 종료",
       click: () => {
-        app.quit();
+        app.exit(0);
       },
     },
   ]);

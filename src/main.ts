@@ -39,6 +39,7 @@ const appMain: AppMainInterface = {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
+  app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
     title: "KoEn",
     width: 600,

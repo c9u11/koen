@@ -52,19 +52,23 @@
   "dependencies": {
     "robotjs": "^0.6.0"
   },
+  "main": "dist/main.js",
   "build": {
+    "files": [
+      "./dist/**/*",
+      "./index.html",
+      "./index.css"
+    ],
     "productName": "KoEn",
     "appId": "com.koen.electron",
     "asar": true,
     "mac": {
       "target": [
         "default"
-      ],
-      "icon": "build/icons/icon.icns"
+      ]
     },
     "dmg": {
-      "title": "KoEn",
-      "icon": "build/icons/icon.icns"
+      "title": "KoEn"
     },
     "win": {
       "target": [

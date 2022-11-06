@@ -39,10 +39,11 @@ const appMain: AppMainInterface = {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
+  app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
     title: "KoEn",
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 400,
     center: true,
     show: false,
     resizable: false,
@@ -71,11 +72,14 @@ app.on("ready", () => {
         appMain.settingWindow.show();
       },
     },
-    { role: "quit", label: "KoEn 종료" },
+    {
+      role: "quit",
+      label: "KoEn 종료",
+    },
   ]);
 
   appMain.settingWindow.loadFile(path.join(__dirname, "../index.html"));
-  appMain.settingWindow.webContents.openDevTools();
+  // appMain.settingWindow.webContents.openDevTools();
   appMain.settingWindow.webContents.on("did-finish-load", () => {
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
@@ -91,11 +95,6 @@ app.on("ready", () => {
   appMain.tray.setToolTip("KoEn");
   appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);
-  // app.on("activate", function () {
-  //   // On macOS it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  // });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -105,6 +104,15 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+app.on("before-quit", () => {
+  // Unregister shortcut
+  unregisterShortcut();
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+  // tray destroy
+  appMain.tray.destroy();
 });
 
 // In this file you can include the rest of your app"s specific main process
@@ -187,10 +195,4 @@ app.whenReady().then(() => {
   ipcMain.on(IPC_SETTING_END, () => {
     registerShortcut();
   });
-});
-
-app.on("will-quit", () => {
-  unregisterShortcut();
-  // Unregister all shortcuts.
-  globalShortcut.unregisterAll();
 });

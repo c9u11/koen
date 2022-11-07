@@ -89,7 +89,6 @@ app.on("ready", () => {
   });
   appMain.settingWindow.on("close", (ev: Electron.Event) => {
     appMain.settingWindow.hide();
-    ev.preventDefault();
   });
   appMain.tray = new Tray(nativeImage.createEmpty());
   appMain.tray.setToolTip("KoEn");

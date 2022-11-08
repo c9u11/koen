@@ -105,7 +105,7 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("before-quit", () => {
+app.on("will-quit", () => {
   // Unregister shortcut
   unregisterShortcut();
   // Unregister all shortcuts.

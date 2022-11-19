@@ -30,7 +30,7 @@ interface AppMainInterface {
   icons?: BrowserWindow;
 }
 
-const appMain: AppMainInterface = {
+let appMain: AppMainInterface | null = {
   enabled: true,
   shortcutKey: ["Shift", "Space"],
 };
@@ -88,7 +88,10 @@ app.on("ready", () => {
     });
   });
   appMain.settingWindow.on("close", (ev: Electron.Event) => {
-    appMain.settingWindow.hide();
+    if (appMain) {
+      appMain.settingWindow.hide();
+      ev.preventDefault();
+    }
   });
   appMain.tray = new Tray(nativeImage.createEmpty());
   appMain.tray.setToolTip("KoEn");
@@ -105,13 +108,13 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("will-quit", () => {
+app.on("before-quit", () => {
   // Unregister shortcut
   unregisterShortcut();
   // Unregister all shortcuts.
   globalShortcut.unregisterAll();
-  // tray destroy
-  appMain.tray.destroy();
+  // appMain null
+  appMain = null;
 });
 
 // In this file you can include the rest of your app"s specific main process

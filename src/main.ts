@@ -35,6 +35,10 @@ let appMain: AppMainInterface | null = {
   shortcutKey: ["Shift", "Space"],
 };
 
+const EnabledIcon = nativeImage.createFromPath(
+  "/Users/seokyoung-hwang/Documents/Code/user/koen/src/img/enabled.png"
+);
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -93,9 +97,9 @@ app.on("ready", () => {
       ev.preventDefault();
     }
   });
-  appMain.tray = new Tray(nativeImage.createEmpty());
+  appMain.tray = new Tray(EnabledIcon.resize({ width: 16, height: 16 }));
   appMain.tray.setToolTip("KoEn");
-  appMain.tray.setTitle("KoEn");
+  // appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);
 });
 

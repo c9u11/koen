@@ -29,7 +29,6 @@
     "@typescript-eslint/parser": "^5.0.0",
     "asar": "^3.2.0",
     "electron": "^18.0.4",
-    "electron-packager": "^17.1.1",
     "electron-rebuild": "^3.2.9",
     "eslint": "^8.26.0",
     "typescript": "^4.7.2"
@@ -56,40 +55,37 @@
   "main": "dist/main.js",
   "build": {
     "files": [
+      "./assets/",
       "./dist/**/*",
       "./index.html",
       "./index.css"
     ],
     "productName": "KoEn",
-    "appId": "com.koen.electron",
+    "appId": "com.electron.koen",
     "asar": true,
     "mac": {
       "target": [
         "default"
-      ]
+      ],
+      "icon": "./assets/icons/mac/icon.icns"
     },
     "dmg": {
-      "title": "KoEn"
+      "title": "KoEn",
+      "icon": "./assets/icons/mac/icon.icns"
     },
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": "build/icons/icon.ico"
+      "icon": "./assets/icons/win/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
-      "perMachine": true,
-      "language": 1042,
-      "installerIcon": "build/icons/icon.ico",
-      "shortcutName": "KoEn",
-      "artifactName": "KoEn-${version}.${ext}",
-      "uninstallDisplayName": "KoEn"
+      "perMachine": true
     },
     "directories": {
-      "buildResources": "./resources/installer/",
       "output": "./build/"
     }
   }

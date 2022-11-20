@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start-typescript",
+  "name": "koen",
   "version": "1.0.0",
-  "description": "A minimal Electron application written with Typescript",
+  "description": "Program to convert text to Korean or English",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -14,23 +14,24 @@
     "deploy:win64": "electron-builder --win --x64",
     "deploy:win": "yarn deploy:win32 && yarn deploy:win64"
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/c9u11/koen"
+  },
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo",
     "typescript"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "c9u11",
+  "license": "",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "asar": "^3.2.0",
+    "electron": "^18.0.4",
+    "electron-packager": "^17.1.1",
     "electron-rebuild": "^3.2.9",
     "eslint": "^8.26.0",
-    "electron": "^18.0.4",
     "typescript": "^4.7.2"
   },
   "iohook": {

@@ -36,7 +36,7 @@ let appMain: AppMainInterface | null = {
 };
 
 const EnabledIcon = nativeImage.createFromPath(
-  "/Users/seokyoung-hwang/Documents/Code/user/koen/src/img/enabled.png"
+  path.join(__dirname, "icons/png/64x64.png")
 );
 
 // This method will be called when Electron has finished

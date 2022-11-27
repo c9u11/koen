@@ -1,4 +1,5 @@
 const { ipcRenderer, clipboard } = require("electron");
+const { keyMap } = require("./dist/constant/keyMap");
 const {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -90,9 +91,8 @@ window.onload = () => {
   });
   shortcutInput.addEventListener("keydown", (evt) => {
     evt.preventDefault();
-    const key = evt.code === "Space" ? "Space" : evt.key;
-    const isAvailable = unAvailableList.indexOf(key) === -1;
-    if (!isAvailable) {
+    const key = keyMap[evt.code];
+    if (!key) {
       console.log("isUnavailable!!!");
       return;
     }

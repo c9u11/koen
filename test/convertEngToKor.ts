@@ -1,7 +1,7 @@
-var convertEngToKor = (args) => {
-  var engChosung = "rRseEfaqQtTdwWczxvg";
-  var engChosungReg = "[" + engChosung + "]";
-  var engJungsung = {
+export const convertEngToKor = (text: string) => {
+  const engChosung = "rRseEfaqQtTdwWczxvg";
+  const engChosungReg = "[" + engChosung + "]";
+  const engJungsung: { [key: string]: number } = {
     k: 0,
     o: 1,
     i: 2,
@@ -24,8 +24,8 @@ var convertEngToKor = (args) => {
     ml: 19,
     l: 20,
   };
-  var engJungsungReg = "hk|ho|hl|nj|np|nl|ml|k|o|i|O|j|p|u|P|h|y|n|b|m|l";
-  var engJongsung = {
+  const engJungsungReg = "hk|ho|hl|nj|np|nl|ml|k|o|i|O|j|p|u|P|h|y|n|b|m|l";
+  const engJongsung: { [key: string]: number } = {
     "": 0,
     r: 1,
     R: 2,
@@ -55,9 +55,10 @@ var convertEngToKor = (args) => {
     v: 26,
     g: 27,
   };
-  var engJongsungReg =
+  const engJongsungReg =
     "rt|sw|sg|fr|fa|fq|ft|fx|fv|fg|qt|r|R|s|e|f|a|q|t|T|d|w|c|z|x|v|g|";
-  var regExp = new RegExp(
+
+  const regExp = new RegExp(
     "(" +
       engChosungReg +
       ")(" +
@@ -73,7 +74,13 @@ var convertEngToKor = (args) => {
       "))",
     "g"
   );
-  var converter = function (args, cho, jung, jong) {
+
+  const convertToKor = function (
+    substring: string,
+    cho: string,
+    jung: string,
+    jong: string
+  ) {
     return String.fromCharCode(
       engChosung.indexOf(cho) * 588 +
         engJungsung[jung] * 28 +
@@ -82,9 +89,10 @@ var convertEngToKor = (args) => {
     );
   };
 
-  var result = args.replace(regExp, converter);
-  console.log(result);
+  const result = text.replace(regExp, convertToKor);
   return result;
 };
 
-convertEngToKor("dlrpwlsWkfhehlfwlsksmswhrmadmltlatmfjdnj");
+console.log(
+  convertEngToKor(`qustn tjsdjsdms ㅍㅁㄱ, 채ㅜㄴㅅ, ㅣㄷㅅdmfh tjsdjsgkqslek.`)
+);

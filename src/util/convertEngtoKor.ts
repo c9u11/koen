@@ -1,17 +1,7 @@
-interface KoreanChar {
-  cho: string;
-  jung: string;
-  jong: string;
-}
-
-interface CharIndex {
-  [key: string]: number;
-}
-
 export const convertEngToKor = (text: string) => {
   const engChosung = "rRseEfaqQtTdwWczxvg";
   const engChosungReg = "[" + engChosung + "]";
-  const engJungsung: CharIndex = {
+  const engJungsung: { [key: string]: number } = {
     k: 0,
     o: 1,
     i: 2,
@@ -35,7 +25,7 @@ export const convertEngToKor = (text: string) => {
     l: 20,
   };
   const engJungsungReg = "hk|ho|hl|nj|np|nl|ml|k|o|i|O|j|p|u|P|h|y|n|b|m|l";
-  const engJongsung: CharIndex = {
+  const engJongsung: { [key: string]: number } = {
     "": 0,
     r: 1,
     R: 2,
@@ -67,6 +57,7 @@ export const convertEngToKor = (text: string) => {
   };
   const engJongsungReg =
     "rt|sw|sg|fr|fa|fq|ft|fx|fv|fg|qt|r|R|s|e|f|a|q|t|T|d|w|c|z|x|v|g|";
+
   const regExp = new RegExp(
     "(" +
       engChosungReg +
@@ -83,7 +74,8 @@ export const convertEngToKor = (text: string) => {
       "))",
     "g"
   );
-  const converter = function (
+
+  const convertToKor = function (
     substring: string,
     cho: string,
     jung: string,
@@ -97,6 +89,6 @@ export const convertEngToKor = (text: string) => {
     );
   };
 
-  const result = text.replace(regExp, converter);
+  const result = text.replace(regExp, convertToKor);
   return result;
 };

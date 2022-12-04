@@ -10,7 +10,6 @@ import {
 } from "electron";
 import * as path from "path";
 import { keyTap, typeString } from "robotjs";
-import { convertEngToKor } from "./util/convertEngtoKor";
 import {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -20,6 +19,7 @@ import {
   IPC_SETTING_START,
   IPC_SETTING_END,
 } from "./constant/ipc";
+import { koen } from "./util/koen";
 
 interface AppMainInterface {
   enabled: boolean;
@@ -126,7 +126,7 @@ app.on("before-quit", () => {
 /* 
   Main Function
 */
-const koen = async () => {
+const convert = async () => {
   const currentClipboardContent = clipboard.readText();
   let selectedText = "";
   if (currentClipboardContent === "ITISKOENTESTTEXT") {
@@ -137,7 +137,7 @@ const koen = async () => {
     await new Promise((resolve) => setTimeout(resolve, 200));
     selectedText = clipboard.readText();
   }
-  const convertedText = convertEngToKor(selectedText);
+  const convertedText = koen(selectedText);
   clipboard.writeText(currentClipboardContent);
   typeString(convertedText);
   return {
@@ -148,7 +148,7 @@ const koen = async () => {
 
 const shortcutHandler = () => {
   if (appMain.enabled)
-    koen()
+    convert()
       .then((result) => {
         console.log(`Conversion Success : ${result.convertedText}`);
       })

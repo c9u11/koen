@@ -36,7 +36,7 @@ let appMain: AppMainInterface | null = {
 };
 
 const EnabledIcon = nativeImage.createFromPath(
-  path.join(__dirname, "../assets/icons/png/64x64.png")
+  path.join(__dirname, "../assets/icons/template/Template@4x.png")
 );
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -96,7 +96,7 @@ app.on("ready", () => {
       ev.preventDefault();
     }
   });
-  appMain.tray = new Tray(EnabledIcon.resize({ width: 16, height: 16 }));
+  appMain.tray = new Tray(EnabledIcon);
   appMain.tray.setToolTip("KoEn");
   // appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);

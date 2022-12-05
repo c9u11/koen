@@ -13,11 +13,11 @@
     Program to convert text to Korean or English
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/othneildrew/Best-README-Template">View Template</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/c9u11/koen/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/c9u11/koen/issues">Request Feature</a>
   </p>
 
 </div>
@@ -58,16 +58,14 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+맥을 사용하며 한/영 변환이 잘 되지않아서 불편했던 경험이 많아 원하는 텍스트를 자동으로 변환해주는 프로그램을 만들었습니다. 이 프로그램이 많은 사용자에게 도움이 되었으면 좋겠습니다.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+현재 사용 가능한 예시:
+* 영어와 한글이 섞인 문서를 작성할 때 변환 되지 않은 텍스트를 지우지 않고 바꿀 수 있습니다.
+* 영어 또는 한글로 모두 작성해야 했지만 반대로 작성했을 경우 한번에 바꿀 수 있습니다.
+* 응용 프로그램의 종류와 상관없이 모든 곳에서 사용할 수 있습니다. (복사와 붙여넣기가 가능한 프로그램)
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+물론, 텍스트를 지우고 작성하는게 빠를 수 있습니다. 그렇기에 모든 맥 사용자에게 도움이 되는건 아닐겁니다. 하지만 기능을 추가하고 확장하다 보면 한/영 변환을 하지 않고 한국어와 영어가 섞인 글을 쓸 수 있는 날이 오지 않을까 생각합니다. 또한 맞춤법 검사기처럼 추가 기능을 개발하는 등 확장성이 뛰어납니다. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,7 +73,7 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+이 프로젝트는 아래의 기술 및 라이브러리를 사용하여 만들어졌습니다.
 
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]

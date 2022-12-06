@@ -1,6 +1,6 @@
+<a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
-<br />
 
 <div align="center">
   <a href="https://github.com/c9u11/koen">
@@ -20,8 +20,6 @@
     <a href="https://github.com/c9u11/koen/issues">Request Feature</a>
   </p>
 
-</div>
-
 
 
 <!-- TABLE OF CONTENTS -->
@@ -30,7 +28,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#About The Project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
@@ -52,8 +50,8 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
@@ -75,24 +73,19 @@
 
 이 프로젝트는 아래의 기술 및 라이브러리를 사용하여 만들어졌습니다.
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* ![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white) [Electron](https://www.electronjs.org/)
+* ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) [Typescript](https://www.typescriptlang.org/)
+* <img src="http://robotjs.io/img/logo.png" height="20"></img> [RobotJS](http://robotjs.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+프로젝트를 로컬로 설정하는 방법입니다. 프로젝트를 복사하고 아래의 과정을 수행하세요.
 
 ### Prerequisites
 

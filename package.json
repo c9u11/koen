@@ -30,7 +30,7 @@
     "asar": "^3.2.0",
     "electron": "^18.0.4",
     "electron-rebuild": "^3.2.9",
-    "eslint": "^8.26.0",
+    "eslint": "^8.29.0",
     "typescript": "^4.7.2"
   },
   "iohook": {

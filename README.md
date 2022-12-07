@@ -19,7 +19,7 @@
     ·
     <a href="https://github.com/c9u11/koen/issues">Request Feature</a>
   </p>
-
+</div>
 
 
 <!-- TABLE OF CONTENTS -->

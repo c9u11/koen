@@ -19,7 +19,7 @@
     ·
     <a href="https://github.com/c9u11/koen/issues">Request Feature</a>
   </p>
-</div>
+
 
 
 <!-- TABLE OF CONTENTS -->
@@ -47,12 +47,11 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Project Screen Shot](https://github.com/c9u11/koen/blob/main/assets/screenshot.png?raw=true)
 
 맥을 사용하며 한/영 변환이 잘 되지않아서 불편했던 경험이 많아 원하는 텍스트를 자동으로 변환해주는 프로그램을 만들었습니다. 이 프로그램이 많은 사용자에게 도움이 되었으면 좋겠습니다.
 

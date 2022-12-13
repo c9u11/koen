@@ -13,7 +13,7 @@
     Program to convert text to Korean or English
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Template</a>
+    <a href="https://c9u11.github.io/koen-page/">Homapage</a>
     ·
     <a href="https://github.com/c9u11/koen/issues">Report Bug</a>
     ·

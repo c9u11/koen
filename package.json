@@ -1,68 +1,89 @@
 {
   "name": "koen",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Program to convert text to Korean or English",
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "start": "npm run build && electron ./dist/main.js",
-    "rebuild": "./node_modules/.bin/electron-rebuild",
-    "postinstall": "electron-builder install-app-deps",
-    "deploy:xos": "electron-builder --mac",
-    "deploy:win32": "electron-builder --win --ia32",
-    "deploy:win64": "electron-builder --win --x64",
-    "deploy:win": "yarn deploy:win32 && yarn deploy:win64"
-  },
+  "keywords": [
+    "React",
+    "Electron",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/c9u11/koen"
   },
-  "keywords": [
-    "Electron",
-    "typescript"
-  ],
   "author": "c9u11",
-  "license": "",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "asar": "^3.2.0",
-    "electron": "^18.0.4",
+  "main": "./public/electron.js",
+  "homepage": "./",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.39",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "electron-is-dev": "^2.0.0",
     "electron-rebuild": "^3.2.9",
-    "eslint": "^8.26.0",
-    "typescript": "^4.7.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2",
+    "react-scripts": "5.0.1",
+    "robotjs": "^0.6.0",
+    "styled-components": "^6.0.7",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
   },
-  "iohook": {
-    "targets": [
-      "node-83",
-      "electron-103"
-    ],
-    "platforms": [
-      "win32",
-      "darwin",
-      "linux"
-    ],
-    "arches": [
-      "x64",
-      "ia32",
-      "arm64"
+  "scripts": {
+    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "start-renderer": "cross-env BROWSER=none npm run react-start",
+    "start-main": "electron .",
+    "compile-main": "tsc ./public/electron.ts",
+    "start-main-after-renderer": "wait-on http://localhost:3000 && npm run start-main",
+    "dev": "npm run compile-main && concurrently -n renderer, main 'npm:start-renderer' 'npm:start-main-after-renderer'",
+    "pack": "npm run compile-main && npm run react-build && electron-builder --dir",
+    "build": "npm run compile-main && npm run react-build && electron-builder build",
+    "build:osx": "npm run build -- --mac",
+    "build:linux": "npm run build -- --linux",
+    "build:win": "npm run build -- --win",
+    "predist": "npm run compile-main"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
     ]
   },
-  "dependencies": {
-    "robotjs": "^0.6.0"
-  },
-  "main": "dist/main.js",
-  "build": {
-    "files": [
-      "./assets/",
-      "./dist/**/*",
-      "./index.html",
-      "./index.css"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^25.4.0",
+    "electron-builder": "^24.6.3",
+    "wait-on": "^7.0.1"
+  },
+  "build": {
     "productName": "KoEn",
     "appId": "com.electron.koen",
     "asar": true,
+    "files": [
+      "node_modules/**/*"
+    ],
     "mac": {
       "target": [
         "default"
@@ -75,6 +96,7 @@
     },
     "win": {
       "target": [
+        "zip",
         "nsis"
       ],
       "icon": "./assets/icons/win/icon.ico"
@@ -86,7 +108,8 @@
       "perMachine": true
     },
     "directories": {
-      "output": "./build/"
+      "output": "dist/",
+      "app": "."
     }
   }
 }

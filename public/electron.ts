@@ -20,6 +20,7 @@ import {
   IPC_SETTING_END,
 } from "./constant/ipc";
 import { koen } from "./util/koen";
+import * as isDev from 'electron-is-dev';
 
 interface AppMainInterface {
   enabled: boolean;
@@ -30,13 +31,13 @@ interface AppMainInterface {
   icons?: BrowserWindow;
 }
 
-let appMain: AppMainInterface | null = {
+const appMain: AppMainInterface | null = {
   enabled: true,
   shortcutKey: ["Shift", "Space"],
 };
 
 const EnabledIcon = nativeImage.createFromPath(
-  path.join(__dirname, "../assets/icons/template/Template@4x.png")
+  path.join(__dirname, "./assets/icons/template/Template@4x.png")
 );
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -72,7 +73,7 @@ app.on("ready", () => {
     {
       label: "환경설정...",
       click: (item, window, event) => {
-        appMain.settingWindow.show();
+        appMain.settingWindow?.show();
       },
     },
     {
@@ -81,9 +82,16 @@ app.on("ready", () => {
     },
   ]);
 
-  appMain.settingWindow.loadFile(path.join(__dirname, "../index.html"));
-  // appMain.settingWindow.webContents.openDevTools();
+  if (isDev) {
+    appMain.settingWindow.loadURL('http://localhost:3000');
+    appMain.settingWindow.webContents.openDevTools();
+  }
+  else {
+    appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
+  }
+
   appMain.settingWindow.webContents.on("did-finish-load", () => {
+    if(!appMain.settingWindow) return;
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
       defaultShortcutKey: appMain.shortcutKey,
@@ -91,7 +99,7 @@ app.on("ready", () => {
     });
   });
   appMain.settingWindow.on("close", (ev: Electron.Event) => {
-    if (appMain) {
+    if (appMain && appMain.settingWindow) {
       appMain.settingWindow.hide();
       ev.preventDefault();
     }
@@ -117,7 +125,7 @@ app.on("before-quit", () => {
   // Unregister all shortcuts.
   globalShortcut.unregisterAll();
   // appMain null
-  appMain = null;
+  // appMain = null;
 });
 
 // In this file you can include the rest of your app"s specific main process
@@ -176,8 +184,9 @@ const unregisterShortcut = () => {
 
 const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
-  appMain.menu.getMenuItemById("enabled").checked = enabled;
-  appMain.settingWindow.webContents.send(IPC_CHANGED_ENABLED, enabled);
+  const enabledMenuIcon = appMain.menu?.getMenuItemById("enabled");
+  if(enabledMenuIcon) enabledMenuIcon.checked = enabled;
+  appMain.settingWindow?.webContents.send(IPC_CHANGED_ENABLED, enabled);
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
 };
 

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const Menu = styled.div`
+const Item = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -19,4 +19,4 @@ const ItemContent = styled.div`
   margin-left: 10px;
 `;
 
-export { Menu, ItemTitle, ItemContent };
+export { Item, ItemTitle, ItemContent };

@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { Checkbox } from "../../../components/Input";
-import { ItemContent, ItemTitle } from "../../../components/Menu";
+import { useEffect, useState } from 'react';
+import { Checkbox } from '../../../components/Input';
+import { Item, ItemContent, ItemTitle } from '../../../components/Item';
 import {
   IPC_CHANGED_ENABLED,
   IPC_DEFAULT_SETTING,
-  IPC_SET_ENABLED,
-} from "../../../constant/Ipc";
-import { IpcRenderer } from "electron";
-const Electron = window.require("electron");
+  IPC_SET_ENABLED
+} from '../../../constant/Ipc';
+import { IpcRenderer } from 'electron';
+const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;
 
 function Activator() {
@@ -31,12 +31,12 @@ function Activator() {
   }, []);
 
   return (
-    <>
+    <Item>
       <ItemTitle>
         <Checkbox checked={checked} onChange={onChange} />
       </ItemTitle>
       <ItemContent>KoEn 활성화</ItemContent>
-    </>
+    </Item>
   );
 }
 

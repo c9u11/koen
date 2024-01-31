@@ -1,10 +1,10 @@
 "use strict";
 exports.__esModule = true;
 exports.IPC_SETTING_END = exports.IPC_SETTING_START = exports.IPC_CHANGED_ENABLED = exports.IPC_SET_ENABLED = exports.IPC_CHANGED_SHORTCUT = exports.IPC_SET_SHORTCUT = exports.IPC_DEFAULT_SETTING = void 0;
-exports.IPC_DEFAULT_SETTING = "defaultSetting";
-exports.IPC_SET_SHORTCUT = "setShortcut";
-exports.IPC_CHANGED_SHORTCUT = "changedShortcut";
-exports.IPC_SET_ENABLED = "setEnabled";
-exports.IPC_CHANGED_ENABLED = "changedEnabled";
-exports.IPC_SETTING_START = "settingStart";
-exports.IPC_SETTING_END = "settingEnd";
+exports.IPC_DEFAULT_SETTING = 'defaultSetting';
+exports.IPC_SET_SHORTCUT = 'setShortcut';
+exports.IPC_CHANGED_SHORTCUT = 'changedShortcut';
+exports.IPC_SET_ENABLED = 'setEnabled';
+exports.IPC_CHANGED_ENABLED = 'changedEnabled';
+exports.IPC_SETTING_START = 'settingStart';
+exports.IPC_SETTING_END = 'settingEnd';

@@ -1,13 +1,12 @@
-import { CenterLayout } from "../../components/Layout";
-import { Menu } from "../../components/Menu";
-import Activator from "./components/Activator";
+import { CenterLayout } from '../../components/Layout';
+import Activator from './components/Activator';
+import ShortcutSetter from './components/ShortcutSetter';
 
 function Home() {
   return (
     <CenterLayout>
-      <Menu>
-        <Activator />
-      </Menu>
+      <Activator />
+      <ShortcutSetter />
     </CenterLayout>
   );
 }

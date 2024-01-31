@@ -44,16 +44,16 @@ var koen_1 = require("./util/koen");
 var isDev = require("electron-is-dev");
 var appMain = {
     enabled: true,
-    shortcutKey: ["Shift", "Space"]
+    shortcutKey: 'Shift + Space'
 };
-var EnabledIcon = electron_1.nativeImage.createFromPath(path.join(__dirname, "./assets/icons/template/Template@4x.png"));
+var EnabledIcon = electron_1.nativeImage.createFromPath(path.join(__dirname, './assets/icons/template/Template@4x.png'));
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-electron_1.app.on("ready", function () {
+electron_1.app.on('ready', function () {
     electron_1.app.dock.hide();
     appMain.settingWindow = new electron_1.BrowserWindow({
-        title: "KoEn",
+        title: 'KoEn',
         width: 600,
         height: 400,
         center: true,
@@ -69,26 +69,26 @@ electron_1.app.on("ready", function () {
     });
     appMain.menu = electron_1.Menu.buildFromTemplate([
         {
-            id: "enabled",
-            label: "KoEn 활성화",
-            type: "checkbox",
+            id: 'enabled',
+            label: 'KoEn 활성화',
+            type: 'checkbox',
             checked: appMain.enabled,
             click: function (item, window, event) {
                 setEnabled(item.checked);
             }
         },
-        { type: "separator" },
+        { type: 'separator' },
         {
-            label: "환경설정...",
+            label: '환경설정...',
             click: function (item, window, event) {
                 var _a;
                 (_a = appMain.settingWindow) === null || _a === void 0 ? void 0 : _a.show();
             }
         },
         {
-            role: "quit",
-            label: "KoEn 종료"
-        },
+            role: 'quit',
+            label: 'KoEn 종료'
+        }
     ]);
     if (isDev) {
         appMain.settingWindow.loadURL('http://localhost:3000');
@@ -97,7 +97,7 @@ electron_1.app.on("ready", function () {
     else {
         appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
     }
-    appMain.settingWindow.webContents.on("did-finish-load", function () {
+    appMain.settingWindow.webContents.on('did-finish-load', function () {
         if (!appMain.settingWindow)
             return;
         // onWebcontentsValue 이벤트 송신
@@ -106,26 +106,26 @@ electron_1.app.on("ready", function () {
             enabled: appMain.enabled
         });
     });
-    appMain.settingWindow.on("close", function (ev) {
+    appMain.settingWindow.on('close', function (ev) {
         if (appMain && appMain.settingWindow) {
             appMain.settingWindow.hide();
             ev.preventDefault();
         }
     });
     appMain.tray = new electron_1.Tray(EnabledIcon);
-    appMain.tray.setToolTip("KoEn");
+    appMain.tray.setToolTip('KoEn');
     // appMain.tray.setTitle("KoEn");
     appMain.tray.setContextMenu(appMain.menu);
 });
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-electron_1.app.on("window-all-closed", function () {
-    if (process.platform !== "darwin") {
+electron_1.app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') {
         electron_1.app.quit();
     }
 });
-electron_1.app.on("before-quit", function () {
+electron_1.app.on('before-quit', function () {
     // Unregister shortcut
     unregisterShortcut();
     // Unregister all shortcuts.
@@ -144,13 +144,13 @@ var convert = function () { return __awaiter(void 0, void 0, void 0, function ()
         switch (_a.label) {
             case 0:
                 currentClipboardContent = electron_1.clipboard.readText();
-                selectedText = "";
-                if (!(currentClipboardContent === "ITISKOENTESTTEXT")) return [3 /*break*/, 1];
-                selectedText = "zhos";
+                selectedText = '';
+                if (!(currentClipboardContent === 'ITISKOENTESTTEXT')) return [3 /*break*/, 1];
+                selectedText = 'zhos';
                 return [3 /*break*/, 3];
             case 1:
                 electron_1.clipboard.clear();
-                (0, robotjs_1.keyTap)("c", process.platform === "darwin" ? "command" : "control");
+                (0, robotjs_1.keyTap)('c', process.platform === 'darwin' ? 'command' : 'control');
                 return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 200); })];
             case 2:
                 _a.sent();
@@ -177,21 +177,19 @@ var shortcutHandler = function () {
         });
 };
 var registerShortcut = function () {
-    var shortcutKeyString = appMain.shortcutKey.join("+");
     // Register a shortcut listener.
-    var ret = electron_1.globalShortcut.register(shortcutKeyString, shortcutHandler);
-    var isRegisterd = ret && electron_1.globalShortcut.isRegistered(shortcutKeyString);
-    console.log("Registration ".concat(isRegisterd ? "Success" : "Failed", " : ").concat(shortcutKeyString));
+    var ret = electron_1.globalShortcut.register(appMain.shortcutKey, shortcutHandler);
+    var isRegisterd = ret && electron_1.globalShortcut.isRegistered(appMain.shortcutKey);
+    console.log("Registration ".concat(isRegisterd ? 'Success' : 'Failed', " : ").concat(appMain.shortcutKey));
 };
 var unregisterShortcut = function () {
-    var shortcutKeyString = appMain.shortcutKey.join("+");
     // Unregister a shortcut.
-    electron_1.globalShortcut.unregister(shortcutKeyString);
+    electron_1.globalShortcut.unregister(appMain.shortcutKey);
 };
 var setEnabled = function (enabled) {
     var _a, _b;
     appMain.enabled = enabled;
-    var enabledMenuIcon = (_a = appMain.menu) === null || _a === void 0 ? void 0 : _a.getMenuItemById("enabled");
+    var enabledMenuIcon = (_a = appMain.menu) === null || _a === void 0 ? void 0 : _a.getMenuItemById('enabled');
     if (enabledMenuIcon)
         enabledMenuIcon.checked = enabled;
     (_b = appMain.settingWindow) === null || _b === void 0 ? void 0 : _b.webContents.send(ipc_1.IPC_CHANGED_ENABLED, enabled);

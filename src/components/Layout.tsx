@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 const CenterLayout = styled.div`
   box-sizing: border-box;
@@ -14,4 +14,23 @@ const CenterLayout = styled.div`
   gap: 20px;
 `;
 
-export { CenterLayout };
+const RelativeBox = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+const AbsoluteBox = styled.div<{
+  $top?: number;
+  $right?: number;
+  $bottom?: number;
+  $left?: number;
+}>`
+  position: absolute;
+  display: flex;
+  top: ${({ $top }) => $top ?? 'unset'};
+  right: ${({ $right }) => $right ?? 'unset'};
+  bottom: ${({ $bottom }) => $bottom ?? 'unset'};
+  left: ${({ $left }) => $left ?? 'unset'};
+`;
+
+export { CenterLayout, RelativeBox, AbsoluteBox };

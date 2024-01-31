@@ -1,5 +1,24 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
-const Checkbox = styled.input.attrs({ type: "checkbox" })``;
+const Checkbox = styled.input.attrs({ type: 'checkbox' })``;
 
-export { Checkbox };
+const TextInput = styled.input`
+  cursor: text;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  margin-top: -4px;
+`;
+
+const TransparentButton = styled.button`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  &:disabled {
+    cursor: not-allowed;
+  }
+`;
+
+export { Checkbox, TextInput, TransparentButton };

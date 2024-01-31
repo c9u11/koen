@@ -6,10 +6,10 @@ import {
   ipcMain,
   Tray,
   nativeImage,
-  Menu,
-} from "electron";
-import * as path from "path";
-import { keyTap, typeString } from "robotjs";
+  Menu
+} from 'electron';
+import * as path from 'path';
+import { keyTap, typeString } from 'robotjs';
 import {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -17,14 +17,14 @@ import {
   IPC_SET_ENABLED,
   IPC_CHANGED_ENABLED,
   IPC_SETTING_START,
-  IPC_SETTING_END,
-} from "./constant/ipc";
-import { koen } from "./util/koen";
+  IPC_SETTING_END
+} from './constant/ipc';
+import { koen } from './util/koen';
 import * as isDev from 'electron-is-dev';
 
 interface AppMainInterface {
   enabled: boolean;
-  shortcutKey: string[];
+  shortcutKey: string;
   settingWindow?: BrowserWindow;
   menu?: Menu;
   tray?: Tray;
@@ -33,19 +33,19 @@ interface AppMainInterface {
 
 const appMain: AppMainInterface | null = {
   enabled: true,
-  shortcutKey: ["Shift", "Space"],
+  shortcutKey: 'Shift + Space'
 };
 
 const EnabledIcon = nativeImage.createFromPath(
-  path.join(__dirname, "./assets/icons/template/Template@4x.png")
+  path.join(__dirname, './assets/icons/template/Template@4x.png')
 );
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
+app.on('ready', () => {
   app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
-    title: "KoEn",
+    title: 'KoEn',
     width: 600,
     height: 400,
     center: true,
@@ -56,56 +56,55 @@ app.on("ready", () => {
       nodeIntegration: true,
       webSecurity: true,
       // sandbox: true,
-      contextIsolation: false,
-    },
+      contextIsolation: false
+    }
   });
   appMain.menu = Menu.buildFromTemplate([
     {
-      id: "enabled",
-      label: "KoEn 활성화",
-      type: "checkbox",
+      id: 'enabled',
+      label: 'KoEn 활성화',
+      type: 'checkbox',
       checked: appMain.enabled,
       click: (item, window, event) => {
         setEnabled(item.checked);
-      },
+      }
     },
-    { type: "separator" },
+    { type: 'separator' },
     {
-      label: "환경설정...",
+      label: '환경설정...',
       click: (item, window, event) => {
         appMain.settingWindow?.show();
-      },
+      }
     },
     {
-      role: "quit",
-      label: "KoEn 종료",
-    },
+      role: 'quit',
+      label: 'KoEn 종료'
+    }
   ]);
 
   if (isDev) {
     appMain.settingWindow.loadURL('http://localhost:3000');
     appMain.settingWindow.webContents.openDevTools();
-  }
-  else {
+  } else {
     appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
   }
 
-  appMain.settingWindow.webContents.on("did-finish-load", () => {
-    if(!appMain.settingWindow) return;
+  appMain.settingWindow.webContents.on('did-finish-load', () => {
+    if (!appMain.settingWindow) return;
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
       defaultShortcutKey: appMain.shortcutKey,
-      enabled: appMain.enabled,
+      enabled: appMain.enabled
     });
   });
-  appMain.settingWindow.on("close", (ev: Electron.Event) => {
+  appMain.settingWindow.on('close', (ev: Electron.Event) => {
     if (appMain && appMain.settingWindow) {
       appMain.settingWindow.hide();
       ev.preventDefault();
     }
   });
   appMain.tray = new Tray(EnabledIcon);
-  appMain.tray.setToolTip("KoEn");
+  appMain.tray.setToolTip('KoEn');
   // appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);
 });
@@ -113,13 +112,13 @@ app.on("ready", () => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("before-quit", () => {
+app.on('before-quit', () => {
   // Unregister shortcut
   unregisterShortcut();
   // Unregister all shortcuts.
@@ -136,12 +135,12 @@ app.on("before-quit", () => {
 */
 const convert = async () => {
   const currentClipboardContent = clipboard.readText();
-  let selectedText = "";
-  if (currentClipboardContent === "ITISKOENTESTTEXT") {
-    selectedText = "zhos";
+  let selectedText = '';
+  if (currentClipboardContent === 'ITISKOENTESTTEXT') {
+    selectedText = 'zhos';
   } else {
     clipboard.clear();
-    keyTap("c", process.platform === "darwin" ? "command" : "control");
+    keyTap('c', process.platform === 'darwin' ? 'command' : 'control');
     await new Promise((resolve) => setTimeout(resolve, 200));
     selectedText = clipboard.readText();
   }
@@ -150,7 +149,7 @@ const convert = async () => {
   typeString(convertedText);
   return {
     selectedText,
-    convertedText,
+    convertedText
   };
 };
 
@@ -166,33 +165,33 @@ const shortcutHandler = () => {
 };
 
 const registerShortcut = () => {
-  const shortcutKeyString = appMain.shortcutKey.join("+");
   // Register a shortcut listener.
-  const ret = globalShortcut.register(shortcutKeyString, shortcutHandler);
-  let isRegisterd = ret && globalShortcut.isRegistered(shortcutKeyString);
+  const ret = globalShortcut.register(appMain.shortcutKey, shortcutHandler);
+  let isRegisterd = ret && globalShortcut.isRegistered(appMain.shortcutKey);
 
   console.log(
-    `Registration ${isRegisterd ? "Success" : "Failed"} : ${shortcutKeyString}`
+    `Registration ${isRegisterd ? 'Success' : 'Failed'} : ${
+      appMain.shortcutKey
+    }`
   );
 };
 
 const unregisterShortcut = () => {
-  const shortcutKeyString = appMain.shortcutKey.join("+");
   // Unregister a shortcut.
-  globalShortcut.unregister(shortcutKeyString);
+  globalShortcut.unregister(appMain.shortcutKey);
 };
 
 const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
-  const enabledMenuIcon = appMain.menu?.getMenuItemById("enabled");
-  if(enabledMenuIcon) enabledMenuIcon.checked = enabled;
+  const enabledMenuIcon = appMain.menu?.getMenuItemById('enabled');
+  if (enabledMenuIcon) enabledMenuIcon.checked = enabled;
   appMain.settingWindow?.webContents.send(IPC_CHANGED_ENABLED, enabled);
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
 };
 
 app.whenReady().then(() => {
   registerShortcut();
-  ipcMain.on(IPC_SET_SHORTCUT, (evt, payload: string[]) => {
+  ipcMain.on(IPC_SET_SHORTCUT, (evt, payload: string) => {
     unregisterShortcut();
     appMain.shortcutKey = payload;
     registerShortcut();

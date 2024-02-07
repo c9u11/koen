@@ -1,9 +1,14 @@
+import { CenterLayout } from '../../components/Layout';
 import ShortcutSetter from '../../components/ShortcutSetter';
+import TopBar from '../../components/TopBar';
 
 function Setting() {
   return (
     <>
-      <ShortcutSetter />
+      <TopBar isHome={false} />
+      <CenterLayout>
+        <ShortcutSetter />
+      </CenterLayout>
     </>
   );
 }

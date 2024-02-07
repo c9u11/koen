@@ -21,4 +21,23 @@ const TransparentButton = styled.button`
   }
 `;
 
-export { Checkbox, TextInput, TransparentButton };
+const IconButton = styled.button<{ src: string }>`
+  background-image: url(${(props) => props.src});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:disabled {
+    cursor: not-allowed;
+  }
+`;
+
+export { Checkbox, TextInput, TransparentButton, IconButton };

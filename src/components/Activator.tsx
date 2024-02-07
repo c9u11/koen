@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Checkbox } from '../../../components/Input';
-import { Item, ItemContent, ItemTitle } from '../../../components/Item';
+import { Checkbox } from './Input';
+import { Item, ItemContent, ItemTitle } from './Item';
 import {
   IPC_CHANGED_ENABLED,
   IPC_DEFAULT_SETTING,
   IPC_SET_ENABLED
-} from '../../../constant/Ipc';
+} from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
 const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;

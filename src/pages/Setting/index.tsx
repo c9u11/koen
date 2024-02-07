@@ -1,5 +1,11 @@
+import ShortcutSetter from '../../components/ShortcutSetter';
+
 function Setting() {
-  return <>Setting</>;
+  return (
+    <>
+      <ShortcutSetter />
+    </>
+  );
 }
 
 export default Setting;

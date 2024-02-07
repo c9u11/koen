@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
-import { TransparentButton } from '../../../components/Input';
-import { AbsoluteBox, RelativeBox } from '../../../components/Layout';
-import { Item, ItemContent, ItemTitle } from '../../../components/Item';
-import {
-  Condition,
-  ConditionTextInput,
-  Conditions
-} from '../../../components/Condition';
-import { keyMap } from '../../../constant/KeyMap';
+import { TransparentButton } from './Input';
+import { AbsoluteBox, RelativeBox } from './Layout';
+import { Item, ItemContent, ItemTitle } from './Item';
+import { Condition, ConditionTextInput, Conditions } from './Condition';
+import { keyMap } from '../constant/KeyMap';
 import {
   IPC_DEFAULT_SETTING,
   IPC_SETTING_END,
   IPC_SETTING_START,
   IPC_SET_SHORTCUT
-} from '../../../constant/Ipc';
+} from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
 const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;

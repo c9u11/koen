@@ -46,8 +46,8 @@ app.on('ready', () => {
   app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
     title: 'KoEn',
-    width: 600,
-    height: 400,
+    width: 300,
+    height: 300,
     center: true,
     show: false,
     resizable: false,

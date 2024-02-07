@@ -54,8 +54,8 @@ electron_1.app.on('ready', function () {
     electron_1.app.dock.hide();
     appMain.settingWindow = new electron_1.BrowserWindow({
         title: 'KoEn',
-        width: 600,
-        height: 400,
+        width: 300,
+        height: 300,
         center: true,
         show: false,
         resizable: false,

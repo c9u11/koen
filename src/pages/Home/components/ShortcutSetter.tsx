@@ -147,7 +147,7 @@ function ShortcutSetter() {
             </AbsoluteBox>
           )}
         </RelativeBox>
-        {isSetting && (
+        {
           <Conditions>
             <Condition $satisfied={keyCondition}>일반 키 1개 사용</Condition>
             <Condition $satisfied={modifierCondition}>
@@ -160,7 +160,7 @@ function ShortcutSetter() {
               </Conditions>
             </Condition>
           </Conditions>
-        )}
+        }
       </ItemContent>
     </Item>
   );

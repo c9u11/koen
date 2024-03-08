@@ -116,9 +116,9 @@ function ShortcutSetter() {
 
   return (
     <Item>
-      <ItemTitle>단축키 설정 :</ItemTitle>
+      <ItemTitle>단축키 설정</ItemTitle>
       <ItemContent>
-        <RelativeBox>
+        <RelativeBox style={{ width: '100%' }}>
           <ConditionTextInput
             value={shortcutToString(shortcut)}
             placeholder='새 단축키를 입력하세요'

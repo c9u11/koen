@@ -5,7 +5,7 @@ function Home() {
   return (
     <>
       <TopBar isHome={true} />
-      <Activator />;
+      <Activator />
     </>
   );
 }

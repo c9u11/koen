@@ -13,7 +13,7 @@ const ipcRenderer: IpcRenderer = Electron.ipcRenderer;
 const HomeBackground = styled(CenterLayout)<{ $checked: boolean }>`
   background: ${({ $checked }) =>
     $checked
-      ? 'radial-gradient(circle at 50% 50%,#333 0%,#000 100%)'
+      ? 'radial-gradient(circle at 50% 50%,#aaa 0%,#000 100%)'
       : 'radial-gradient(circle at 50% 50%,#222 0%,#000 100%)'};
 `;
 const Container = styled.div`

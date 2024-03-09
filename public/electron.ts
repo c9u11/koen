@@ -17,7 +17,9 @@ import {
   IPC_SET_ENABLED,
   IPC_CHANGED_ENABLED,
   IPC_SETTING_START,
-  IPC_SETTING_END
+  IPC_SETTING_END,
+  IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
+  IPC_SET_IS_CHANGE_INPUT_SOURCE
 } from './constant/ipc';
 import { koen } from './util/koen';
 import * as isDev from 'electron-is-dev';
@@ -25,6 +27,7 @@ import * as isDev from 'electron-is-dev';
 interface AppMainInterface {
   enabled: boolean;
   shortcutKey: string;
+  isChangeInputSource: boolean;
   settingWindow?: BrowserWindow;
   menu?: Menu;
   tray?: Tray;
@@ -33,7 +36,8 @@ interface AppMainInterface {
 
 const appMain: AppMainInterface | null = {
   enabled: true,
-  shortcutKey: 'Shift + Space'
+  shortcutKey: 'Shift + Space',
+  isChangeInputSource: false
 };
 
 const EnabledIcon = nativeImage.createFromPath(
@@ -50,7 +54,7 @@ app.on('ready', () => {
     height: 300,
     center: true,
     show: false,
-    resizable: false,
+    // resizable: false,
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
@@ -94,7 +98,8 @@ app.on('ready', () => {
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
       defaultShortcutKey: appMain.shortcutKey,
-      enabled: appMain.enabled
+      enabled: appMain.enabled,
+      isChangeInputSource: appMain.isChangeInputSource
     });
   });
   appMain.settingWindow.on('close', (ev: Electron.Event) => {
@@ -153,8 +158,16 @@ const convert = async () => {
   };
 };
 
+const changeInputSource = () => {
+  const changeInputSourceKeys =
+    process.platform === 'darwin' ? ['space', 'control'] : ['', ''];
+  // as [string] 를 사용하여 타입 단언, 단언을 하지않으면 에러 발생
+  keyTap(...(changeInputSourceKeys as [string]));
+  console.log('Input Source Changed');
+};
+
 const shortcutHandler = () => {
-  if (appMain.enabled)
+  if (appMain.enabled) {
     convert()
       .then((result) => {
         console.log(`Conversion Success : ${result.convertedText}`);
@@ -162,6 +175,8 @@ const shortcutHandler = () => {
       .catch((result) => {
         console.log(`Conversion Failed : ${result.selectedText}`);
       });
+    if (appMain.isChangeInputSource) changeInputSource();
+  }
 };
 
 const registerShortcut = () => {
@@ -185,8 +200,16 @@ const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
   const enabledMenuIcon = appMain.menu?.getMenuItemById('enabled');
   if (enabledMenuIcon) enabledMenuIcon.checked = enabled;
-  appMain.settingWindow?.webContents.send(IPC_CHANGED_ENABLED, enabled);
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
+};
+
+const setIsChangeInputSource = (isChangeInputSource: boolean) => {
+  appMain.isChangeInputSource = isChangeInputSource;
+  appMain.settingWindow?.webContents.send(
+    IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
+    isChangeInputSource
+  );
+  console.log(`입력소스 변경 설정 : ${appMain.isChangeInputSource}`);
 };
 
 app.whenReady().then(() => {
@@ -207,5 +230,9 @@ app.whenReady().then(() => {
   });
   ipcMain.on(IPC_SETTING_END, () => {
     registerShortcut();
+  });
+  ipcMain.on(IPC_SET_IS_CHANGE_INPUT_SOURCE, (evt, payload: boolean) => {
+    setIsChangeInputSource(payload);
+    evt.reply(IPC_CHANGED_IS_CHANGE_INPUT_SOURCE, payload);
   });
 });

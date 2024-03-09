@@ -5,5 +5,5 @@ export const IPC_SET_ENABLED = 'setEnabled';
 export const IPC_CHANGED_ENABLED = 'changedEnabled';
 export const IPC_SETTING_START = 'settingStart';
 export const IPC_SETTING_END = 'settingEnd';
-export const IPC_REQUEST_SHORTCUT = 'requestShortcut';
-export const IPC_RESPONSE_SHORTCUT = 'responseShortcut';
+export const IPC_SET_IS_CHANGE_INPUT_SOURCE = 'setIsChangeInputSource';
+export const IPC_CHANGED_IS_CHANGE_INPUT_SOURCE = 'changedIsChangeInputSource';

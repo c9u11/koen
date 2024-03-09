@@ -11,7 +11,6 @@ const CenterLayout = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #eaeaea;
-  gap: 20px;
 `;
 
 const RelativeBox = styled.div`

@@ -20,4 +20,9 @@ const ItemContent = styled.div`
   font-size: 14px;
 `;
 
-export { Item, ItemTitle, ItemContent };
+const ItemLabel = styled.label`
+  font-size: 14px;
+  margin-left: 10px;
+`;
+
+export { Item, ItemTitle, ItemContent, ItemLabel };

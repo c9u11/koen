@@ -44,7 +44,8 @@ var koen_1 = require("./util/koen");
 var isDev = require("electron-is-dev");
 var appMain = {
     enabled: true,
-    shortcutKey: 'Shift + Space'
+    shortcutKey: 'Shift + Space',
+    isChangeInputSource: false
 };
 var EnabledIcon = electron_1.nativeImage.createFromPath(path.join(__dirname, './assets/icons/template/Template@4x.png'));
 // This method will be called when Electron has finished
@@ -58,7 +59,7 @@ electron_1.app.on('ready', function () {
         height: 300,
         center: true,
         show: false,
-        resizable: false,
+        // resizable: false,
         fullscreenable: false,
         webPreferences: {
             nodeIntegration: true,
@@ -103,7 +104,8 @@ electron_1.app.on('ready', function () {
         // onWebcontentsValue 이벤트 송신
         appMain.settingWindow.webContents.send(ipc_1.IPC_DEFAULT_SETTING, {
             defaultShortcutKey: appMain.shortcutKey,
-            enabled: appMain.enabled
+            enabled: appMain.enabled,
+            isChangeInputSource: appMain.isChangeInputSource
         });
     });
     appMain.settingWindow.on('close', function (ev) {
@@ -167,14 +169,23 @@ var convert = function () { return __awaiter(void 0, void 0, void 0, function ()
         }
     });
 }); };
+var changeInputSource = function () {
+    var changeInputSourceKeys = process.platform === 'darwin' ? ['space', 'control'] : ['', ''];
+    // as [string] 를 사용하여 타입 단언, 단언을 하지않으면 에러 발생
+    robotjs_1.keyTap.apply(void 0, changeInputSourceKeys);
+    console.log('Input Source Changed');
+};
 var shortcutHandler = function () {
-    if (appMain.enabled)
+    if (appMain.enabled) {
         convert()
             .then(function (result) {
             console.log("Conversion Success : ".concat(result.convertedText));
         })["catch"](function (result) {
             console.log("Conversion Failed : ".concat(result.selectedText));
         });
+        if (appMain.isChangeInputSource)
+            changeInputSource();
+    }
 };
 var registerShortcut = function () {
     // Register a shortcut listener.
@@ -187,13 +198,18 @@ var unregisterShortcut = function () {
     electron_1.globalShortcut.unregister(appMain.shortcutKey);
 };
 var setEnabled = function (enabled) {
-    var _a, _b;
+    var _a;
     appMain.enabled = enabled;
     var enabledMenuIcon = (_a = appMain.menu) === null || _a === void 0 ? void 0 : _a.getMenuItemById('enabled');
     if (enabledMenuIcon)
         enabledMenuIcon.checked = enabled;
-    (_b = appMain.settingWindow) === null || _b === void 0 ? void 0 : _b.webContents.send(ipc_1.IPC_CHANGED_ENABLED, enabled);
     console.log("KoEn \uD65C\uC131\uD654 : ".concat(appMain.enabled));
+};
+var setIsChangeInputSource = function (isChangeInputSource) {
+    var _a;
+    appMain.isChangeInputSource = isChangeInputSource;
+    (_a = appMain.settingWindow) === null || _a === void 0 ? void 0 : _a.webContents.send(ipc_1.IPC_CHANGED_IS_CHANGE_INPUT_SOURCE, isChangeInputSource);
+    console.log("\uC785\uB825\uC18C\uC2A4 \uBCC0\uACBD \uC124\uC815 : ".concat(appMain.isChangeInputSource));
 };
 electron_1.app.whenReady().then(function () {
     registerShortcut();
@@ -213,5 +229,9 @@ electron_1.app.whenReady().then(function () {
     });
     electron_1.ipcMain.on(ipc_1.IPC_SETTING_END, function () {
         registerShortcut();
+    });
+    electron_1.ipcMain.on(ipc_1.IPC_SET_IS_CHANGE_INPUT_SOURCE, function (evt, payload) {
+        setIsChangeInputSource(payload);
+        evt.reply(ipc_1.IPC_CHANGED_IS_CHANGE_INPUT_SOURCE, payload);
     });
 });

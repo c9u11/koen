@@ -6,10 +6,10 @@ import {
   ipcMain,
   Tray,
   nativeImage,
-  Menu
-} from 'electron';
-import * as path from 'path';
-import { keyTap, typeString } from '@hurdlegroup/robotjs';
+  Menu,
+} from "electron";
+import * as path from "path";
+import { keyTap, typeString } from "@hurdlegroup/robotjs";
 import {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -19,10 +19,10 @@ import {
   IPC_SETTING_START,
   IPC_SETTING_END,
   IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
-  IPC_SET_IS_CHANGE_INPUT_SOURCE
-} from './constant/ipc';
-import { koen } from './util/koen';
-import * as isDev from 'electron-is-dev';
+  IPC_SET_IS_CHANGE_INPUT_SOURCE,
+} from "./constant/ipc";
+import { koen } from "./util/koen";
+import * as isDev from "electron-is-dev";
 
 interface AppMainInterface {
   enabled: boolean;
@@ -36,20 +36,20 @@ interface AppMainInterface {
 
 const appMain: AppMainInterface | null = {
   enabled: true,
-  shortcutKey: 'Shift + Space',
-  isChangeInputSource: false
+  shortcutKey: "Shift + Space",
+  isChangeInputSource: false,
 };
 
 const EnabledIcon = nativeImage.createFromPath(
-  path.join(__dirname, './assets/icons/template/Template@4x.png')
+  path.join(__dirname, "./assets/icons/template/Template@4x.png")
 );
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
+app.on("ready", () => {
   app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
-    title: 'KoEn',
+    title: "KoEn",
     width: 500,
     height: 400,
     center: true,
@@ -60,59 +60,59 @@ app.on('ready', () => {
       nodeIntegration: true,
       webSecurity: true,
       // sandbox: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   appMain.menu = Menu.buildFromTemplate([
     {
-      id: 'enabled',
-      label: 'KoEn 활성화',
-      type: 'checkbox',
+      id: "enabled",
+      label: "KoEn 활성화",
+      type: "checkbox",
       checked: appMain.enabled,
       click: (item, window, event) => {
         setEnabled(item.checked);
-      }
+      },
     },
-    { type: 'separator' },
+    { type: "separator" },
     {
-      label: '환경설정...',
+      label: "환경설정...",
       click: (item, window, event) => {
         appMain.settingWindow?.show();
-      }
+      },
     },
     {
-      label: 'KoEn 종료',
+      label: "KoEn 종료",
       click: (item, window, event) => {
         app.exit(0);
-      }
-    }
+      },
+    },
   ]);
 
   if (isDev) {
-    appMain.settingWindow.loadURL('http://localhost:3000');
-    appMain.settingWindow.webContents.openDevTools();
+    appMain.settingWindow.loadURL("http://localhost:3000");
+    // appMain.settingWindow.webContents.openDevTools();
   } else {
     // appMain.settingWindow.webContents.openDevTools();
-    appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
+    appMain.settingWindow.loadFile(path.join(__dirname, "../build/index.html"));
   }
 
-  appMain.settingWindow.webContents.on('did-finish-load', () => {
+  appMain.settingWindow.webContents.on("did-finish-load", () => {
     if (!appMain.settingWindow) return;
     // onWebcontentsValue 이벤트 송신
     appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
       defaultShortcutKey: appMain.shortcutKey,
       enabled: appMain.enabled,
-      isChangeInputSource: appMain.isChangeInputSource
+      isChangeInputSource: appMain.isChangeInputSource,
     });
   });
-  appMain.settingWindow.on('close', (ev: Electron.Event) => {
+  appMain.settingWindow.on("close", (ev: Electron.Event) => {
     if (appMain && appMain.settingWindow) {
       appMain.settingWindow.hide();
       ev.preventDefault();
     }
   });
   appMain.tray = new Tray(EnabledIcon);
-  appMain.tray.setToolTip('KoEn');
+  appMain.tray.setToolTip("KoEn");
   // appMain.tray.setTitle("KoEn");
   appMain.tray.setContextMenu(appMain.menu);
 });
@@ -120,13 +120,13 @@ app.on('ready', () => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('before-quit', () => {
+app.on("before-quit", () => {
   // Unregister shortcut
   unregisterShortcut();
   // Unregister all shortcuts.
@@ -143,12 +143,12 @@ app.on('before-quit', () => {
 */
 const convert = async () => {
   const currentClipboardContent = clipboard.readText();
-  let selectedText = '';
-  if (currentClipboardContent === 'ITISKOENTESTTEXT') {
-    selectedText = 'zhos';
+  let selectedText = "";
+  if (currentClipboardContent === "ITISKOENTESTTEXT") {
+    selectedText = "zhos";
   } else {
     clipboard.clear();
-    keyTap('c' as 'tab', process.platform === 'darwin' ? 'command' : 'control');
+    keyTap("c" as "tab", process.platform === "darwin" ? "command" : "control");
     await new Promise((resolve) => setTimeout(resolve, 200));
     selectedText = clipboard.readText();
   }
@@ -157,14 +157,14 @@ const convert = async () => {
   typeString(convertedText);
   return {
     selectedText,
-    convertedText
+    convertedText,
   };
 };
 
 const changeInputSource = () => {
-  if (process.platform === 'darwin') keyTap('space', 'control');
+  if (process.platform === "darwin") keyTap("space", "control");
 
-  console.log('Input Source Changed');
+  console.log("Input Source Changed");
 };
 
 const shortcutHandler = () => {
@@ -186,7 +186,7 @@ const registerShortcut = () => {
   let isRegisterd = ret && globalShortcut.isRegistered(appMain.shortcutKey);
 
   console.log(
-    `Registration ${isRegisterd ? 'Success' : 'Failed'} : ${
+    `Registration ${isRegisterd ? "Success" : "Failed"} : ${
       appMain.shortcutKey
     }`
   );
@@ -199,7 +199,7 @@ const unregisterShortcut = () => {
 
 const setEnabled = (enabled: boolean) => {
   appMain.enabled = enabled;
-  const enabledMenuIcon = appMain.menu?.getMenuItemById('enabled');
+  const enabledMenuIcon = appMain.menu?.getMenuItemById("enabled");
   if (enabledMenuIcon) enabledMenuIcon.checked = enabled;
   console.log(`KoEn 활성화 : ${appMain.enabled}`);
 };

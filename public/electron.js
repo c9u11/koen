@@ -55,11 +55,11 @@ electron_1.app.on('ready', function () {
     electron_1.app.dock.hide();
     appMain.settingWindow = new electron_1.BrowserWindow({
         title: 'KoEn',
-        width: 300,
-        height: 300,
+        width: 500,
+        height: 400,
         center: true,
         show: false,
-        // resizable: false,
+        resizable: false,
         fullscreenable: false,
         webPreferences: {
             nodeIntegration: true,
@@ -87,8 +87,10 @@ electron_1.app.on('ready', function () {
             }
         },
         {
-            role: 'quit',
-            label: 'KoEn 종료'
+            label: 'KoEn 종료',
+            click: function (item, window, event) {
+                electron_1.app.exit(0);
+            }
         }
     ]);
     if (isDev) {
@@ -96,6 +98,7 @@ electron_1.app.on('ready', function () {
         appMain.settingWindow.webContents.openDevTools();
     }
     else {
+        // appMain.settingWindow.webContents.openDevTools();
         appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
     }
     appMain.settingWindow.webContents.on('did-finish-load', function () {

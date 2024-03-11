@@ -50,11 +50,11 @@ app.on('ready', () => {
   app.dock.hide();
   appMain.settingWindow = new BrowserWindow({
     title: 'KoEn',
-    width: 300,
-    height: 300,
+    width: 500,
+    height: 400,
     center: true,
     show: false,
-    // resizable: false,
+    resizable: false,
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
@@ -81,8 +81,10 @@ app.on('ready', () => {
       }
     },
     {
-      role: 'quit',
-      label: 'KoEn 종료'
+      label: 'KoEn 종료',
+      click: (item, window, event) => {
+        app.exit(0);
+      }
     }
   ]);
 
@@ -90,6 +92,7 @@ app.on('ready', () => {
     appMain.settingWindow.loadURL('http://localhost:3000');
     appMain.settingWindow.webContents.openDevTools();
   } else {
+    // appMain.settingWindow.webContents.openDevTools();
     appMain.settingWindow.loadFile(path.join(__dirname, '../build/index.html'));
   }
 

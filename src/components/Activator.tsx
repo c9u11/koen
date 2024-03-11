@@ -3,7 +3,7 @@ import {
   IPC_CHANGED_ENABLED,
   IPC_DEFAULT_SETTING,
   IPC_SET_ENABLED
-} from '../constant/Ipc';
+} from '../constant/ipc';
 import { IpcRenderer } from 'electron';
 import styled from 'styled-components';
 import { CenterLayout } from './Layout';
@@ -58,7 +58,7 @@ function Activator() {
     <HomeBackground $checked={checked}>
       <Container>
         <Icon
-          src='/assets/icons/png/512x512.png'
+          src={`${process.env.PUBLIC_URL}/assets/icons/png/512x512.png`}
           onClick={toggle}
           $checked={checked}
         />

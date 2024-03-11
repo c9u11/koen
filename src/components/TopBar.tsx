@@ -29,7 +29,11 @@ const TopBar = ({ isHome }: { isHome: boolean }) => {
   return (
     <TopBarContainer>
       <IconButton
-        src={isHome ? '/icons/setting.svg' : 'icons/close.svg'}
+        src={
+          isHome
+            ? `${process.env.PUBLIC_URL}/icons/setting.svg`
+            : `${process.env.PUBLIC_URL}/icons/close.svg`
+        }
         onClick={onClick}
       />
     </TopBarContainer>

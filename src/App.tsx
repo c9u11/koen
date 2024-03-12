@@ -1,9 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import {
-  ROUTES_BASENAME,
-  ROUTES_PATH_ROOT,
-  ROUTES_PATH_SETTING
-} from './constant/Routes';
+import { ROUTES_PATH_ROOT, ROUTES_PATH_SETTING } from './constant/Routes';
 import Setting from './pages/Setting';
 import Home from './pages/Home';
 

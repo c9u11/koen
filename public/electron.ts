@@ -9,7 +9,7 @@ import {
   Menu
 } from 'electron';
 import * as path from 'path';
-import { keyTap, typeString } from 'robotjs';
+import { keyTap, typeString } from '@hurdlegroup/robotjs';
 import {
   IPC_DEFAULT_SETTING,
   IPC_SET_SHORTCUT,
@@ -148,7 +148,7 @@ const convert = async () => {
     selectedText = 'zhos';
   } else {
     clipboard.clear();
-    keyTap('c', process.platform === 'darwin' ? 'command' : 'control');
+    keyTap('c' as 'tab', process.platform === 'darwin' ? 'command' : 'control');
     await new Promise((resolve) => setTimeout(resolve, 200));
     selectedText = clipboard.readText();
   }
@@ -162,10 +162,8 @@ const convert = async () => {
 };
 
 const changeInputSource = () => {
-  const changeInputSourceKeys =
-    process.platform === 'darwin' ? ['space', 'control'] : ['', ''];
-  // as [string] 를 사용하여 타입 단언, 단언을 하지않으면 에러 발생
-  keyTap(...(changeInputSourceKeys as [string]));
+  if (process.platform === 'darwin') keyTap('space', 'control');
+
   console.log('Input Source Changed');
 };
 

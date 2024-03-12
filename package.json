@@ -14,27 +14,8 @@
   "author": "c9u11",
   "main": "./public/electron.js",
   "homepage": "./",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.39",
-    "@types/react": "^18.2.18",
-    "@types/react-dom": "^18.2.7",
-    "electron-is-dev": "^2.0.0",
-    "electron-rebuild": "^3.2.9",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "react-scripts": "5.0.1",
-    "robotjs": "^0.6.0",
-    "styled-components": "^6.0.7",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
   "scripts": {
-    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "rebuild": "electron-builder install-app-deps",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
@@ -45,11 +26,37 @@
     "start-main-after-renderer": "wait-on http://localhost:3000 && npm run start-main",
     "dev": "npm run compile-main && concurrently -n renderer, main 'npm:start-renderer' 'npm:start-main-after-renderer'",
     "pack": "npm run compile-main && npm run react-build && electron-builder --dir",
-    "build": "npm run compile-main && npm run react-build && electron-builder build",
+    "build": "export PYTHON_PATH=/Library/Frameworks/Python.framework/Versions/2.7/bin/python && npm run compile-main && npm run react-build && electron-builder build",
     "build:osx": "npm run build -- --mac",
     "build:linux": "npm run build -- --linux",
-    "build:win": "npm run build -- --win",
-    "predist": "npm run compile-main"
+    "build:win": "npm run build -- --win"
+  },
+  "dependencies": {
+    "@hurdlegroup/robotjs": "^0.11.4",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.39",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "electron-is-dev": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.0.7",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/styled-components": "^5.1.26",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^29.1.1",
+    "electron-builder": "^22.14.7",
+    "wait-on": "^7.0.1"
   },
   "eslintConfig": {
     "extends": [
@@ -69,14 +76,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/styled-components": "^5.1.26",
-    "concurrently": "^8.2.0",
-    "cross-env": "^7.0.3",
-    "electron": "^25.4.0",
-    "electron-builder": "^24.6.3",
-    "wait-on": "^7.0.1"
-  },
   "build": {
     "productName": "KoEn",
     "appId": "com.electron.koen",
@@ -88,18 +87,18 @@
       "target": [
         "default"
       ],
-      "icon": "./assets/icons/mac/icon.icns"
+      "icon": "./public/assets/icons/mac/icon.icns"
     },
     "dmg": {
       "title": "KoEn",
-      "icon": "./assets/icons/mac/icon.icns"
+      "icon": "./public/assets/icons/mac/icon.icns"
     },
     "win": {
       "target": [
         "zip",
         "nsis"
       ],
-      "icon": "./assets/icons/win/icon.ico"
+      "icon": "./public/assets/icons/win/icon.ico"
     },
     "nsis": {
       "oneClick": false,

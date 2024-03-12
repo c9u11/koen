@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
-var robotjs_1 = require("robotjs");
+var robotjs_1 = require("@hurdlegroup/robotjs");
 var ipc_1 = require("./constant/ipc");
 var koen_1 = require("./util/koen");
 var isDev = require("electron-is-dev");
@@ -173,9 +173,8 @@ var convert = function () { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 var changeInputSource = function () {
-    var changeInputSourceKeys = process.platform === 'darwin' ? ['space', 'control'] : ['', ''];
-    // as [string] 를 사용하여 타입 단언, 단언을 하지않으면 에러 발생
-    robotjs_1.keyTap.apply(void 0, changeInputSourceKeys);
+    if (process.platform === 'darwin')
+        (0, robotjs_1.keyTap)('space', 'control');
     console.log('Input Source Changed');
 };
 var shortcutHandler = function () {

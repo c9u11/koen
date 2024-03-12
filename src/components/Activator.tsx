@@ -35,24 +35,27 @@ const Icon = styled.img<{ $checked: boolean }>`
 
 function Activator() {
   const [checked, setChecked] = useState(true);
-  const toggle = () => setChecked(!checked);
+  const toggle = () => {
+    ipcRenderer.send(IPC_SET_ENABLED, !checked);
+  };
 
   useEffect(() => {
-    ipcRenderer.on(IPC_CHANGED_ENABLED, (evt, payload: boolean) => {
+    const handleEnabled = (
+      evt: Electron.IpcRendererEvent,
+      payload: boolean
+    ) => {
+      console.log(evt, payload);
       setChecked(payload);
-    });
+    };
 
-    ipcRenderer.on(
-      IPC_DEFAULT_SETTING,
-      (evt, payload: { enabled: boolean }) => {
-        setChecked(payload.enabled);
-      }
-    );
+    ipcRenderer.on(IPC_CHANGED_ENABLED, handleEnabled);
+    ipcRenderer.on(IPC_DEFAULT_SETTING, handleEnabled);
+
+    return () => {
+      ipcRenderer.removeListener(IPC_CHANGED_ENABLED, handleEnabled);
+      ipcRenderer.removeListener(IPC_DEFAULT_SETTING, handleEnabled);
+    };
   }, []);
-
-  useEffect(() => {
-    ipcRenderer.send(IPC_SET_ENABLED, checked);
-  }, [checked]);
 
   return (
     <HomeBackground $checked={checked}>

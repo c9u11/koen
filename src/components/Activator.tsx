@@ -3,14 +3,14 @@ import {
   IPC_CHANGED_ENABLED,
   IPC_DEFAULT_SETTING,
   IPC_SET_ENABLED
-} from '../constant/ipc';
+} from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
 import styled from 'styled-components';
 import { CenterLayout } from './Layout';
 const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;
 
-const HomeBackground = styled(CenterLayout)<{ $checked: boolean }>`
+const HomeBackground = styled(CenterLayout) <{ $checked: boolean }>`
   background: ${({ $checked }) =>
     $checked
       ? 'radial-gradient(circle at 50% 50%,#aaa 0%,#000 100%)'

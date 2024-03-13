@@ -5,7 +5,7 @@ import {
   IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
   IPC_DEFAULT_SETTING,
   IPC_SET_IS_CHANGE_INPUT_SOURCE
-} from '../constant/ipc';
+} from '../constant/Ipc';
 import { ItemLabel } from './Item';
 const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;

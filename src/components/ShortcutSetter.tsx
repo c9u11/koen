@@ -9,7 +9,7 @@ import {
   IPC_SETTING_END,
   IPC_SETTING_START,
   IPC_SET_SHORTCUT
-} from '../constant/ipc';
+} from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
 const Electron = window.require('electron');
 const ipcRenderer: IpcRenderer = Electron.ipcRenderer;

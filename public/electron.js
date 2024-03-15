@@ -147,7 +147,6 @@ var convert = function () { return __awaiter(void 0, void 0, void 0, function ()
             case 2:
                 _a.sent();
                 selectedText = electron_1.clipboard.readText();
-                console.log("Selected Text : ".concat(selectedText));
                 _a.label = 3;
             case 3:
                 convertedText = (0, koen_1.koen)(selectedText);

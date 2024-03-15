@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   IPC_CHANGED_ENABLED,
-  IPC_DEFAULT_SETTING,
   IPC_SET_ENABLED
 } from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
@@ -35,25 +34,21 @@ const Icon = styled.img<{ $checked: boolean }>`
 
 function Activator() {
   const [checked, setChecked] = useState(true);
-  const toggle = () => {
-    ipcRenderer.send(IPC_SET_ENABLED, !checked);
-  };
+  const toggle = () => ipcRenderer.send(IPC_SET_ENABLED, !checked);
 
   useEffect(() => {
-    const handleEnabled = (
+    // ENABLED가 변경되었을 때 이벤트를 받아서 checked 상태를 변경합니다.
+    ipcRenderer.on(IPC_CHANGED_ENABLED, (
       evt: Electron.IpcRendererEvent,
       payload: boolean
     ) => {
-      console.log(evt, payload);
       setChecked(payload);
-    };
+    });
 
-    ipcRenderer.on(IPC_CHANGED_ENABLED, handleEnabled);
-    ipcRenderer.on(IPC_DEFAULT_SETTING, handleEnabled);
+    ipcRenderer.send(IPC_SET_ENABLED);
 
     return () => {
-      ipcRenderer.removeListener(IPC_CHANGED_ENABLED, handleEnabled);
-      ipcRenderer.removeListener(IPC_DEFAULT_SETTING, handleEnabled);
+      ipcRenderer.removeAllListeners(IPC_CHANGED_ENABLED);
     };
   }, []);
 

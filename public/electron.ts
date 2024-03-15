@@ -11,11 +11,10 @@ import {
 import * as path from "path";
 import { keyTap, typeString } from "@hurdlegroup/robotjs";
 import {
-  IPC_DEFAULT_SETTING,
-  IPC_SET_SHORTCUT,
-  IPC_CHANGED_SHORTCUT,
   IPC_SET_ENABLED,
   IPC_CHANGED_ENABLED,
+  IPC_SET_SHORTCUT,
+  IPC_CHANGED_SHORTCUT,
   IPC_SETTING_START,
   IPC_SETTING_END,
   IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
@@ -43,18 +42,15 @@ const appMain: AppMainInterface | null = {
 const EnabledIcon = nativeImage.createFromPath(
   path.join(__dirname, "./assets/icons/template/Template@4x.png")
 );
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-  app.dock.hide();
+
+const createSettingWindow = () => {
   appMain.settingWindow = new BrowserWindow({
     title: "KoEn",
     width: 500,
     height: 400,
     center: true,
     show: false,
-    resizable: false,
+    resizable: isDev ? true : false,
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
@@ -63,6 +59,21 @@ app.on("ready", () => {
       contextIsolation: false,
     },
   });
+
+  if (isDev) {
+    appMain.settingWindow.loadURL("http://localhost:3000");
+    appMain.settingWindow.webContents.openDevTools();
+  } else {
+    appMain.settingWindow.loadFile(path.join(__dirname, "../build/index.html"));
+  }
+  appMain.settingWindow.show();
+};
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on("ready", () => {
+  app.dock.hide();
+
   appMain.menu = Menu.buildFromTemplate([
     {
       id: "enabled",
@@ -71,13 +82,17 @@ app.on("ready", () => {
       checked: appMain.enabled,
       click: (item, window, event) => {
         setEnabled(item.checked);
+        appMain.settingWindow?.webContents.send(
+          IPC_CHANGED_ENABLED,
+          item.checked
+        );
       },
     },
     { type: "separator" },
     {
       label: "환경설정...",
       click: (item, window, event) => {
-        appMain.settingWindow?.show();
+        createSettingWindow();
       },
     },
     {
@@ -88,29 +103,6 @@ app.on("ready", () => {
     },
   ]);
 
-  if (isDev) {
-    appMain.settingWindow.loadURL("http://localhost:3000");
-    // appMain.settingWindow.webContents.openDevTools();
-  } else {
-    // appMain.settingWindow.webContents.openDevTools();
-    appMain.settingWindow.loadFile(path.join(__dirname, "../build/index.html"));
-  }
-
-  appMain.settingWindow.webContents.on("did-finish-load", () => {
-    if (!appMain.settingWindow) return;
-    // onWebcontentsValue 이벤트 송신
-    appMain.settingWindow.webContents.send(IPC_DEFAULT_SETTING, {
-      defaultShortcutKey: appMain.shortcutKey,
-      enabled: appMain.enabled,
-      isChangeInputSource: appMain.isChangeInputSource,
-    });
-  });
-  appMain.settingWindow.on("close", (ev: Electron.Event) => {
-    if (appMain && appMain.settingWindow) {
-      appMain.settingWindow.hide();
-      ev.preventDefault();
-    }
-  });
   appMain.tray = new Tray(EnabledIcon);
   appMain.tray.setToolTip("KoEn");
   // appMain.tray.setTitle("KoEn");
@@ -215,25 +207,38 @@ const setIsChangeInputSource = (isChangeInputSource: boolean) => {
 
 app.whenReady().then(() => {
   registerShortcut();
-  ipcMain.on(IPC_SET_SHORTCUT, (evt, payload: string) => {
-    unregisterShortcut();
-    appMain.shortcutKey = payload;
-    registerShortcut();
-    // IPC_CHANGED_SHORTCUT 송신 또는 응답
-    evt.reply(IPC_CHANGED_SHORTCUT, payload);
+  ipcMain.on(IPC_SET_SHORTCUT, (evt, payload?: string) => {
+    if (payload === undefined)
+      evt.reply(IPC_CHANGED_SHORTCUT, appMain.shortcutKey);
+    else {
+      unregisterShortcut();
+      appMain.shortcutKey = payload;
+      registerShortcut();
+      evt.reply(IPC_CHANGED_SHORTCUT, payload);
+    }
   });
-  ipcMain.on(IPC_SET_ENABLED, (evt, payload: boolean) => {
-    setEnabled(payload);
-    evt.reply(IPC_CHANGED_ENABLED, payload);
+  ipcMain.on(IPC_SET_ENABLED, (evt, payload?: boolean) => {
+    if (payload === undefined) evt.reply(IPC_CHANGED_ENABLED, appMain.enabled);
+    else {
+      setEnabled(payload);
+      evt.reply(IPC_CHANGED_ENABLED, payload);
+    }
   });
   ipcMain.on(IPC_SETTING_START, () => {
-    unregisterShortcut();
+    setEnabled(false);
   });
   ipcMain.on(IPC_SETTING_END, () => {
-    registerShortcut();
+    setEnabled(true);
   });
-  ipcMain.on(IPC_SET_IS_CHANGE_INPUT_SOURCE, (evt, payload: boolean) => {
-    setIsChangeInputSource(payload);
-    evt.reply(IPC_CHANGED_IS_CHANGE_INPUT_SOURCE, payload);
+  ipcMain.on(IPC_SET_IS_CHANGE_INPUT_SOURCE, (evt, payload?: boolean) => {
+    if (payload === undefined)
+      evt.reply(
+        IPC_CHANGED_IS_CHANGE_INPUT_SOURCE,
+        appMain.isChangeInputSource
+      );
+    else {
+      setIsChangeInputSource(payload);
+      evt.reply(IPC_CHANGED_IS_CHANGE_INPUT_SOURCE, payload);
+    }
   });
 });

@@ -5,10 +5,10 @@ import { Item, ItemContent, ItemTitle } from './Item';
 import { Condition, ConditionTextInput, Conditions } from './Condition';
 import { keyMap } from '../constant/KeyMap';
 import {
-  IPC_DEFAULT_SETTING,
   IPC_SETTING_END,
   IPC_SETTING_START,
-  IPC_SET_SHORTCUT
+  IPC_SET_SHORTCUT,
+  IPC_CHANGED_SHORTCUT
 } from '../constant/Ipc';
 import { IpcRenderer } from 'electron';
 const Electron = window.require('electron');
@@ -29,9 +29,8 @@ const DEFAULT_SHORTCUT: Shortcut = {
   Shift: false
 };
 function ShortcutSetter() {
-  const [currentShortcut, setCurrentShortcut] =
+  const [shortcut, setShortcut] =
     useState<Shortcut>(DEFAULT_SHORTCUT);
-  const [shortcut, setShortcut] = useState<Shortcut>(DEFAULT_SHORTCUT);
 
   const [keyCondition, setKeyCondition] = useState(false);
   const [modifierCondition, setModifierCondition] = useState(false);
@@ -39,7 +38,6 @@ function ShortcutSetter() {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const key = keyMap[e.code];
-    console.log(e);
     setShortcut({
       Key: ['Alt', 'Control', 'Meta', 'Shift'].indexOf(key) === -1 ? key : '',
       Alt: e.altKey,
@@ -49,23 +47,20 @@ function ShortcutSetter() {
     });
   };
 
-  const initShortcut = () => {
+  const startSetting = () => {
     ipcRenderer.send(IPC_SETTING_START);
-    setShortcut(DEFAULT_SHORTCUT);
     setIsSetting(true);
+    setShortcut(DEFAULT_SHORTCUT);
   };
 
-  const restoreShortcuts = () => {
-    ipcRenderer.send(IPC_SETTING_END);
-    setShortcut(currentShortcut);
-    setIsSetting(false);
-  };
-
-  const saveShortcuts = () => {
+  const saveSetting = () => {
     ipcRenderer.send(IPC_SET_SHORTCUT, shortcutToString(shortcut));
-    setCurrentShortcut(shortcut);
-    setIsSetting(false);
-  };
+    ipcRenderer.send(IPC_SETTING_END);
+  }
+  const cancelSetting = () => {
+    ipcRenderer.send(IPC_SET_SHORTCUT);
+    ipcRenderer.send(IPC_SETTING_END);
+  }
 
   const shortcutToString = (shortcut: Shortcut) => {
     const shortcutArray = [];
@@ -97,11 +92,22 @@ function ShortcutSetter() {
     return shortcutObject;
   };
 
-  ipcRenderer.on(IPC_DEFAULT_SETTING, (e, props) => {
-    const currentShortcut = shortcutToObject(props.defaultShortcutKey);
-    setCurrentShortcut(currentShortcut);
-    setShortcut(currentShortcut);
-  });
+  useEffect(() => {
+    // SHORTCUT이 변경되었을 때 이벤트를 받아서 shortcut 상태를 변경합니다.
+    ipcRenderer.on(IPC_CHANGED_SHORTCUT, (
+      evt: Electron.IpcRendererEvent,
+      payload: string
+    ) => {
+      setShortcut(shortcutToObject(payload));
+      setIsSetting(false);
+    });
+
+    ipcRenderer.send(IPC_SET_SHORTCUT);
+
+    return () => {
+      ipcRenderer.removeAllListeners(IPC_CHANGED_SHORTCUT);
+    };
+  }, []);
 
   useEffect(() => {
     if (shortcut.Key !== '') setKeyCondition(true);
@@ -123,7 +129,7 @@ function ShortcutSetter() {
             value={shortcutToString(shortcut)}
             placeholder='새 단축키를 입력하세요'
             readOnly
-            onClick={initShortcut}
+            onClick={startSetting}
             onKeyDown={onKeyDown}
             $changed={keyCondition || modifierCondition}
             $satisfied={keyCondition && modifierCondition}
@@ -133,11 +139,11 @@ function ShortcutSetter() {
               <TransparentButton
                 type='button'
                 disabled={!(keyCondition && modifierCondition)}
-                onClick={saveShortcuts}
+                onClick={saveSetting}
               >
                 저장
               </TransparentButton>
-              <TransparentButton type='button' onClick={restoreShortcuts}>
+              <TransparentButton type='button' onClick={cancelSetting}>
                 취소
               </TransparentButton>
             </AbsoluteBox>

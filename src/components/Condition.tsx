@@ -7,16 +7,16 @@ const Condition = styled.li<{ $satisfied: boolean }>`
   list-style-type: ${(props) => (props.$satisfied ? "'✓ '" : '')};
 `;
 
-const ConditionTextInput = styled(TextInput)<{
+const ConditionTextInput = styled(TextInput) <{
   $changed: boolean;
   $satisfied: boolean;
 }>`
   &:focus {
     border-color: ${(props) => {
-      if (props.$satisfied) return '#28c840 !important';
-      if (props.$changed) return '#febc2e !important';
-      return '#aaa';
-    }};
+    if (props.$satisfied) return '#28c840 !important';
+    if (props.$changed) return '#febc2e !important';
+    return '#aaa';
+  }};
     outline: none;
   }
 `;

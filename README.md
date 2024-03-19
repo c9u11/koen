@@ -21,8 +21,6 @@
   </p>
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
 
 <details>
@@ -47,7 +45,6 @@
   </ol>
 </details>
 
-
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
@@ -57,27 +54,24 @@
 맥을 사용하며 한/영 변환이 잘 되지않아서 불편했던 경험이 많아 원하는 텍스트를 자동으로 변환해주는 프로그램을 만들었습니다. 이 프로그램이 많은 사용자에게 도움이 되었으면 좋겠습니다.
 
 현재 사용 가능한 예시:
-* 영어와 한글이 섞인 문서를 작성할 때 변환 되지 않은 텍스트를 지우지 않고 바꿀 수 있습니다.
-* 영어 또는 한글로 모두 작성해야 했지만 반대로 작성했을 경우 한번에 바꿀 수 있습니다.
-* 응용 프로그램의 종류와 상관없이 모든 곳에서 사용할 수 있습니다. (복사와 붙여넣기가 가능한 프로그램)
 
-물론, 텍스트를 지우고 작성하는게 빠를 수 있습니다. 그렇기에 모든 맥 사용자에게 도움이 되는건 아닐겁니다. 하지만 기능을 추가하고 확장하다 보면 한/영 변환을 하지 않고 한국어와 영어가 섞인 글을 쓸 수 있는 날이 오지 않을까 생각합니다. 또한 맞춤법 검사기처럼 추가 기능을 개발하는 등 확장성이 뛰어납니다. 
+- 영어와 한글이 섞인 문서를 작성할 때 변환 되지 않은 텍스트를 지우지 않고 바꿀 수 있습니다.
+- 영어 또는 한글로 모두 작성해야 했지만 반대로 작성했을 경우 한번에 바꿀 수 있습니다.
+- 응용 프로그램의 종류와 상관없이 모든 곳에서 사용할 수 있습니다. (복사와 붙여넣기가 가능한 프로그램)
+
+물론, 텍스트를 지우고 작성하는게 빠를 수 있습니다. 그렇기에 모든 맥 사용자에게 도움이 되는건 아닐겁니다. 하지만 기능을 추가하고 확장하다 보면 한/영 변환을 하지 않고 한국어와 영어가 섞인 글을 쓸 수 있는 날이 오지 않을까 생각합니다. 또한 맞춤법 검사기처럼 추가 기능을 개발하는 등 확장성이 뛰어납니다.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
 이 프로젝트는 아래의 기술 및 라이브러리를 사용하여 만들어졌습니다.
 
-* ![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white) [Electron](https://www.electronjs.org/)
-* ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) [Typescript](https://www.typescriptlang.org/)
-* <img src="http://robotjs.io/img/logo.png" height="20"></img> [RobotJS](http://robotjs.io/)
+- ![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white) [Electron](https://www.electronjs.org/)
+- ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) [Typescript](https://www.typescriptlang.org/)
+- <img src="http://robotjs.io/img/logo.png" height="20"></img> [RobotJS](http://robotjs.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 
@@ -97,8 +91,6 @@ Koen 개발에 도움을 주실 분들을 위한 콘텐츠입니다. 단순 프�
 
 - git
 
-  
-
 ### Installation
 
 다음 과정을 거쳐 프로젝트를 설치 및 실행 할 수 있습니다.
@@ -108,20 +100,20 @@ Koen 개발에 도움을 주실 분들을 위한 콘텐츠입니다. 단순 프�
    ```sh
    git clone https://github.com/c9u11/koen.git
    ```
-3. Install NPM packages
+
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Start project
+3. Start project
    ```sh
    npm start
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 - [x] Global Shortcut 사용
@@ -131,16 +123,14 @@ Koen 개발에 도움을 주실 분들을 위한 콘텐츠입니다. 단순 프�
 - [x] 한글을 영어로 변환
 - [x] Build 테스트
 - [x] 백그라운드 설정
-    - [x] 앱 종료 관련 버그 수정
-
+  - [x] 앱 종료 관련 버그 수정
 
 제안된 기능 및 알려진 이슈의 전체 목록은 [미해결 이슈](https://github.com/c9u11/koen/issues)를 참조하세요.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 프로젝트를 개선할 수 있는 제안이 있으면 fork 후 pull request를 하세요. 감사합니다.
@@ -153,9 +143,8 @@ Koen 개발에 도움을 주실 분들을 위한 콘텐츠입니다. 단순 프�
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 황석영 - tjrdud6412@naver.com

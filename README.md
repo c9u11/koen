@@ -4,7 +4,7 @@
 
 <div align="center">
   <a href="https://github.com/c9u11/koen">
-    <img src="https://raw.githubusercontent.com/c9u11/koen/main/assets/icons/png/512x512.png" alt="Logo" width="160" height="160">
+    <img src="https://github.com/c9u11/koen/blob/main/public/assets/icons/png/512x512.png?raw=true" alt="Logo" width="160" height="160">
   </a>
 
   <h3 align="center">KoEn</h3>

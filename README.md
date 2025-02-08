@@ -13,6 +13,9 @@
     Program to convert text to Korean or English
     <br />
     <br />
+    🥳 <a href="https://apps.apple.com/kr/app/koen/id6566172035?l=en-GB&mt=12">드디어 앱스토어에서 KoEn을 다운받을 수 있습니다.</a> 🤩
+    <br />
+    <br />
     <a href="https://c9u11.github.io/koen-page/">Homapage</a>
     ·
     <a href="https://github.com/c9u11/koen/issues">Report Bug</a>
